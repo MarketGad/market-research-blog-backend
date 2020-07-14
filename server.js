@@ -36,7 +36,7 @@ app.use(cookieParser());
 app.use("/api", googleloginroute);
 app.use("/api", ideaSubmitroute);
 app.use("/api", subscriberoute);
-app.use(express.static(path.join(__dirname, '../client/build')));
+// app.use(express.static(path.join(__dirname, '../client/build')));
 
 
 
