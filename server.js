@@ -63,8 +63,6 @@ app.use("/api", subscriberoute);
 //   res.status(err.status || 500);
 //   res.render('error');
 // });
-
-const port = 5000;
-app.listen(port, () => {
+app.listen(config.port, () => {
   console.log(`Server running at http://localhost:${port}`);
 });
