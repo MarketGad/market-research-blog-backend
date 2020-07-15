@@ -10,7 +10,15 @@ const app = express();
 const googleloginroute = require('./routes/googleloginroute');
 const ideaSubmitroute = require('./routes/ideasubmitroute');
 const subscriberoute = require('./routes/subscriberoute');
-
+app.use(cors({
+  origin: ['*'],
+  credentials: true
+}));
+app.use(function(req, res, next) {
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+  next();
+});
 
 const mongodburl = config.MONGODB_URL;
 mongoose.connect(mongodburl, {
@@ -27,15 +35,7 @@ mongoose.connect(mongodburl, {
 app.use(express.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
-app.use(cors({
-  origin: ['*'],
-  credentials: true
-}));
-app.use(function(req, res, next) {
-  res.header("Access-Control-Allow-Origin", "*");
-  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
-  next();
-});
+
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 // app.get('*', (req, res) => {
