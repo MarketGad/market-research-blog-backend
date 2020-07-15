@@ -1,6 +1,6 @@
-const createError = require('http-errors');
+// const createError = require('http-errors');
 const express = require('express');
-const path = require('path');
+// const path = require('path');
 const bodyParser = require('body-parser');
 const mongoose = require("mongoose");
 const cookieParser = require('cookie-parser');
@@ -10,10 +10,7 @@ const app = express();
 const googleloginroute = require('./routes/googleloginroute');
 const ideaSubmitroute = require('./routes/ideasubmitroute');
 const subscriberoute = require('./routes/subscriberoute');
-app.use(cors({
-  origin: ['*'],
-  credentials: true
-}));
+app.use(cors());
 app.use(function(req, res, next) {
   res.header("Access-Control-Allow-Origin", "*");
   res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
@@ -64,6 +61,6 @@ app.use("/api", subscriberoute);
 //   res.status(err.status || 500);
 //   res.render('error');
 // });
-app.listen(config.port || 5000, () => {
+app.listen(config.port, () => {
   console.log(`Server running at http://localhost:${config.port}`);
 });
