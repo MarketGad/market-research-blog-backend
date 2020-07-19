@@ -5,11 +5,6 @@ const User = require('../Models/UserModel');
 router.put('/ideasubmit', async (req, res) => {
     console.log(req.body);
     const ideaget = "(Topic: " + req.body.topic + ") " + "(Description: " + req.body.briefIdea + ")";
-    if (ideaget !== null) {
-        ideares = true;
-    } else {
-        ideares = false;
-    }
     const user = await User.findOne({ email: req.body.email }).exec(async (err, user) => {
         if (err) {
             console.log(err);
