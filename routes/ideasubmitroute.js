@@ -11,7 +11,7 @@ router.put('/ideasubmit', async (req, res) => {
         } else {
             if (user) {
                 user.phone = req.body.phone;
-                user.ideagiven = ideares;
+                user.ideagiven = user.ideares;
                 user.idea =  ideaget;
                 user.friend1 = req.body.f1email;
                 user.friend2 = req.body.f2email;
