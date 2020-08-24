@@ -13,7 +13,7 @@ router.post('/signupUser', async (req, res, next) => {
     //      password
     // }
     
-    console.log(req.body);
+    // console.log(req.body);
     User.register(new User(req.body), req.body.password, (err, user)=>{
         if(err) {
 			res.statusCode = 500;

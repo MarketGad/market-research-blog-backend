@@ -46,7 +46,7 @@ app.use(cookieParser());
 
 // to authenticate user
 app.use(passport.initialize());
-console.log("passport initialised")
+// console.log("passport initialised")
 
 app.use("/api", signupRoute);
 app.use("/api", loginRoute);
