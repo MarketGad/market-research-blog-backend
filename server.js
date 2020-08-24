@@ -8,6 +8,8 @@ const cors = require('cors');
 const config = require('./config');
 const app = express();
 const googleloginroute = require('./routes/googleloginroute');
+const signupRoute = require('./routes/User/signupRoute');
+const loginRoute = require('./routes/User/loginRoute');
 const ideaSubmitroute = require('./routes/ideasubmitroute');
 const subscriberoute = require('./routes/subscriberoute');
 app.use(cors());
@@ -38,6 +40,8 @@ app.use(cookieParser());
 // app.get('*', (req, res) => {
 //   res.sendFile(path.join(__dirname, '../client/build/index.html'));
 // })
+app.use("/api", signupRoute);
+app.use("/api", loginRoute);
 app.use("/api", googleloginroute);
 app.use("/api", ideaSubmitroute);
 app.use("/api", subscriberoute);
