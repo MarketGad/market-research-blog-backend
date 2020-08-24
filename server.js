@@ -12,6 +12,9 @@ const signupRoute = require('./routes/User/signupRoute');
 const loginRoute = require('./routes/User/loginRoute');
 const ideaSubmitroute = require('./routes/ideasubmitroute');
 const subscriberoute = require('./routes/subscriberoute');
+var passport = require('passport');
+var authenticate = require('./authenticate');
+
 app.use(cors());
 app.use(function(req, res, next) {
   res.header("Access-Control-Allow-Origin", "*");
@@ -40,6 +43,11 @@ app.use(cookieParser());
 // app.get('*', (req, res) => {
 //   res.sendFile(path.join(__dirname, '../client/build/index.html'));
 // })
+
+// to authenticate user
+app.use(passport.initialize());
+console.log("passport initialised")
+
 app.use("/api", signupRoute);
 app.use("/api", loginRoute);
 app.use("/api", googleloginroute);
