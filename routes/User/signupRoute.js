@@ -62,7 +62,6 @@ router.post('/signupUser', async (req, res, next) => {
                         html: `<div style="font-family: monospace;" >
                                 <h2 >
                                     use this OTP to verify your MarketGad account.<br>
-                                    Dekhe bey eta , thik laguchi na sala
                                 </h2>
                                 <div style="padding: 10px;background-color: rgb(235, 255, 255); font-size: 40px ">
                                         <p>${otp}</p>
@@ -93,10 +92,6 @@ router.post('/signupUser', async (req, res, next) => {
 
 router.post('/sendotp', async (req,res) => {
     User.findOne({email: req.body.email} , async (err, user) => {
-        console.log("err");
-        console.log(err);
-        console.log("user")
-        console.log(user)
         if(user){
             otp = getRandomArbitrary(123456, 987654);
             var mailOptions = {
@@ -106,7 +101,6 @@ router.post('/sendotp', async (req,res) => {
                 html: `<div style="font-family: monospace;" >
                         <h2 >
                             use this OTP to verify your MarketGad account.<br>
-                            Dekhe bey eta , thik laguchi na sala
                         </h2>
                         <div style="padding: 10px;background-color: rgb(235, 255, 255); font-size: 40px ">
                                 <p>${otp}</p>
@@ -117,7 +111,6 @@ router.post('/sendotp', async (req,res) => {
 
             await smtpTransport.sendMail(mailOptions, (error, response) => {
                 if(error){
-                    console.log("ERROR");
                     console.log(error);
                 }else{
                     console.log("Message sent");
@@ -129,6 +122,7 @@ router.post('/sendotp', async (req,res) => {
             res.statusCode = 200;
             res.setHeader('Content-Type', 'application/json');
             res.json({success: true, status: 'Mail sent successfully !'});
+            return;
         } else {
             res.statusCode = 500;
             res.setHeader('Content-Type', 'application/json');
@@ -151,10 +145,12 @@ router.post('/otpverify', async ( req, res, next) => {
                 res.statusCode = 200;
                 res.setHeader('Content-Type', 'application/json');
                 res.json({success: true, status: 'Email verification successfull !'});
+                return;
             } else {
                 res.statusCode = 500;
                 res.setHeader('Content-Type', 'application/json');
                 res.json({success: false, status: 'Incorrect OTP !'});
+                return;
             }
         } else {
             res.statusCode = 500;
