@@ -2,6 +2,12 @@ const mongoose = require('mongoose');
 var passportLocalMongoose = require('passport-local-mongoose');
 
 const UserSchema = new mongoose.Schema({
+    email: {
+        type: String,
+        trim: true,
+        required: true,
+        unique: true,
+    },
     username: {
         type: String,
         trim: true,
@@ -18,11 +24,6 @@ const UserSchema = new mongoose.Schema({
         trim: true,
         required: true,
     },
-    email: {
-        type: String,
-        trim: true,
-        required: true,
-    },
     picture: {
         type: String,
         required: false
@@ -32,9 +33,14 @@ const UserSchema = new mongoose.Schema({
         default: " ",
         required: false,
     },
+    isEmailVerified: {
+        type: Boolean,
+        default: false,
+        required: false,
+    }
 
 }, { timestamps: true });
 
-UserSchema.plugin(passportLocalMongoose);
+UserSchema.plugin(passportLocalMongoose, { usernameField : 'email'});
 
 module.exports = mongoose.model('NewUser', UserSchema);

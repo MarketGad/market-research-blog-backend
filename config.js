@@ -5,5 +5,7 @@ module.exports = {
     MONGODB_URL: process.env.MONGODB_URL,
     JWT_SIGNIN_KEY: process.env.JWT_SIGNIN_KEY,
     PORT: process.env.PORT || 5000,
+    MAIL_ID: process.env.MAIL_ID,
+    MAIL_PASS: process.env.MAIL_PASS,
 }
 

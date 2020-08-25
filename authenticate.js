@@ -8,11 +8,19 @@ var jwt = require('jsonwebtoken'); // used to create, sign, and verify tokens
 var config = require('./config.js');
 // console.log(config);
 
-passport.use(new LocalStrategy(User.authenticate()));
-passport.serializeUser(User.serializeUser());
+// passport.use(new LocalStrategy({
+//     usernameField: 'username',
+//   },User.authenticate()));
 
+passport.use(new LocalStrategy({
+    usernameField: 'email',
+  }, User.authenticate()));
+
+passport.serializeUser(User.serializeUser());
+passport.deserializeUser(User.deserializeUser()); 
 
 exports.getToken = function(user) {
+    console.log("inside get token function")
     return jwt.sign(user, config.JWT_SIGNIN_KEY,
         {expiresIn: '7d'});
 };
