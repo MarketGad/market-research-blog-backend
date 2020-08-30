@@ -7,13 +7,20 @@ const cookieParser = require('cookie-parser');
 const cors = require('cors');
 const config = require('./config');
 const app = express();
-const googleloginroute = require('./routes/googleloginroute');
+var passport = require('passport');
+var authenticate = require('./authenticate');
+
+
+// Routes
+const googleLoginRoute = require('./routes/googleloginroute');
 const signupRoute = require('./routes/User/signupRoute');
 const loginRoute = require('./routes/User/loginRoute');
 const ideaSubmitroute = require('./routes/ideasubmitroute');
-const subscriberoute = require('./routes/subscriberoute');
-var passport = require('passport');
-var authenticate = require('./authenticate');
+const subscribeRoute = require('./routes/subscriberoute');
+const jobProfiles = require('./routes/jobProfile/jobProfile')
+const productDetails = require('./routes/productsDetails/productDetails')
+
+
 
 app.use(cors());
 app.use(function(req, res, next) {
@@ -50,9 +57,11 @@ app.use(passport.initialize());
 
 app.use("/api", signupRoute);
 app.use("/api", loginRoute);
-app.use("/api", googleloginroute);
+app.use("/api", googleLoginRoute);
 app.use("/api", ideaSubmitroute);
-app.use("/api", subscriberoute);
+app.use("/api", subscribeRoute);
+app.use('/api/jobprofiles', jobProfiles)
+app.use('/api/productdetails', productDetails)
 // app.use(express.static(path.join(__dirname, '../client/build')));
 
 

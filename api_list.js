@@ -1,5 +1,6 @@
 const api =[
         {
+            method: "POST",
             api: "http://localhost:5000/api/loginUser",
             body: {
                 "username": "sai-bot",
@@ -7,6 +8,7 @@ const api =[
             }
         },
         {
+            method: "POST",
             api: "http://localhost:5000/api/signupUser",
             body: {
                 "username": "sidhartha7",
@@ -18,12 +20,14 @@ const api =[
             }
         },
         {
+            method: "POST",
             api: "http://localhost:5000/api/sendotp",
             body: {
                 "email": "b118055@iiit-bh.ac.in"
             }
         },
         {
+            method: "POST",
             api: "http://localhost:5000/api/otpverify",
             body: {
                 "email": "b118055@iiit-bh.ac.in",
