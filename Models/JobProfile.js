@@ -13,19 +13,14 @@ const JobProfile = new mongoose.Schema({
         required: true,
         unique: true,
     },
-    firstname: {
+    name: {
         type: String,
         trim: true,
         required: true,
     },
-    lastname:{
+    image: {
         type: String,
-        trim: true,
-        required: true,
-    },
-    picture: {
-        type: String,
-        required: false
+        required: false,
     },
     phone: {
         type: Number,
@@ -46,7 +41,15 @@ const JobProfile = new mongoose.Schema({
     },
     skills: {
         type: [String],
-        required: false
+        required: false,
+    },
+    location: {
+        type: [String],
+        required: false,
+    },
+    experience:{
+        type: String,
+        required: false,
     }
 
 
