@@ -3,17 +3,20 @@ const bodyParser = require('body-parser');
 
 
 
-const productDetails = express.Router();
-const User = require('../../Models/UserNewModel');
+const productDetailsRouter = express.Router();
 var passport = require('passport');
 var authenticate = require('../../authenticate');
-const JobProfile = require('../../Models/JobProfile');
 
-productDetails.use(bodyParser.json());
+// SCHEMA
+const User = require('../../Models/UserNewModel');
+const ProductDetails = require('../../Models/ProductDetails');
 
-productDetails.route('/')
+
+
+productDetailsRouter.use(bodyParser.json());
+productDetailsRouter.route('/')
 .get((req, res, next) => {
-    JobProfile.find({})
+    ProductDetails.find({})
     .populate('comments.author')
     .then((profiles) => {
         res.statusCode = 200;
@@ -23,7 +26,7 @@ productDetails.route('/')
     .catch((err) => next(err));
 })
 .post( authenticate.verifyUser, (req, res, next) => {
-    JobProfile.create(req.body)
+    ProductDetails.create(req.body)
     .then((profile) => {
         console.log('Profile Created ', profile);
         res.json(profile);

@@ -10,6 +10,7 @@ router.post('/loginUser', passport.authenticate('local'), (req, res) => {
 	var token = authenticate.getToken({_id: req.user._id});
     // console.log(token)
     userData = {
+        _id: req.user._id,
         username: req.user.username,
         firstname: req.user.firstname,
         lastname: req.user.lastname,

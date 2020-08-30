@@ -1,5 +1,7 @@
 const mongoose = require('mongoose');
 
+
+// work on using mongoose.populate to populate the user details here.
 const JobProfile = new mongoose.Schema({
     email: {
         type: String,

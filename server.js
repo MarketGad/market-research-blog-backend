@@ -17,8 +17,8 @@ const signupRoute = require('./routes/User/signupRoute');
 const loginRoute = require('./routes/User/loginRoute');
 const ideaSubmitroute = require('./routes/ideasubmitroute');
 const subscribeRoute = require('./routes/subscriberoute');
-const jobProfiles = require('./routes/jobProfile/jobProfile')
-const productDetails = require('./routes/productsDetails/productDetails')
+const JobProfilesRouter = require('./routes/jobProfile/jobProfileRouter')
+const ProductDetailsRouter = require('./routes/productsDetails/productDetailsRouter')
 
 
 
@@ -60,8 +60,8 @@ app.use("/api", loginRoute);
 app.use("/api", googleLoginRoute);
 app.use("/api", ideaSubmitroute);
 app.use("/api", subscribeRoute);
-app.use('/api/jobprofiles', jobProfiles)
-app.use('/api/productdetails', productDetails)
+app.use('/api/jobprofiles', JobProfilesRouter)
+app.use('/api/productdetails', ProductDetailsRouter)
 // app.use(express.static(path.join(__dirname, '../client/build')));
 
 
