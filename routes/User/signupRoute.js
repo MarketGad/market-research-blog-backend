@@ -94,6 +94,8 @@ router.post('/sendotp', async (req,res) => {
     User.findOne({email: req.body.email} , async (err, user) => {
         if(user){
             otp = getRandomArbitrary(123456, 987654);
+            user.otp = otp;
+            user.save();
             var mailOptions = {
                 from:`${"no-reply-otp-verification@marketgad.com"}`,
                 to : `${req.body.email}`,
@@ -139,7 +141,7 @@ router.post('/sendotp', async (req,res) => {
 router.post('/otpverify', async ( req, res, next) => {
     User.findOne({email: req.body.email}, (err, user) => {
         if(user){
-            if(req.body.otp == otp) {
+            if(req.body.otp == user.otp) {
                 user.isEmailVerified = true;
                 user.save()
                 res.statusCode = 200;
