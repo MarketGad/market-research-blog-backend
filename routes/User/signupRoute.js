@@ -55,6 +55,8 @@ router.post('/signupUser', async (req, res, next) => {
                     console.log("before mail")
                     console.log(req.body);
                     otp = getRandomArbitrary(123456, 987654);
+                    user.otp = otp;
+                    user.save();
                     var mailOptions = {
                         from:`${"no-reply-otp-verification@marketgad.com"}`,
                         to : `${req.body.email}`,
@@ -143,6 +145,7 @@ router.post('/sendotp', async (req,res) => {
 router.post('/otpverify', async ( req, res, next) => {
     User.findOne({email: req.body.email}, (err, user) => {
         if(user){
+            console.log(user);
             if(req.body.otp == user.otp) {
                 user.isEmailVerified = true;
                 user.save()
