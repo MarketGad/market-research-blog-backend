@@ -44,4 +44,4 @@ productDetailsRouter.route('/')
 
 
 
-module.exports = productDetails;
+module.exports = productDetailsRouter;

@@ -17,6 +17,7 @@ jobProfileRouter.use(bodyParser.json());
 jobProfileRouter.route('/')
 .get((req, res, next) => {
     JobProfile.find({})
+    .populate('user')
     .then((profiles) => {
         res.statusCode = 200;
         res.setHeader('Content-Type', 'application/json');

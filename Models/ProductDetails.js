@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 
-const CommentSchema = new Schema({
+const CommentSchema = new mongoose.Schema({
     rating: {
         type: Number,
         min: 1,
