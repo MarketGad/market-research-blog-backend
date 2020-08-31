@@ -18,6 +18,7 @@ productDetailsRouter.route('/')
 .get((req, res, next) => {
     ProductDetails.find({})
     .populate('comments.author')
+    .populate('user')
     .then((profiles) => {
         res.statusCode = 200;
         res.setHeader('Content-Type', 'application/json');

@@ -21,6 +21,10 @@ const CommentSchema = new mongoose.Schema({
 
 
 const ProductDetails = new mongoose.Schema({
+    user: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'NewUser'
+    },
     name: {
         type: String,
         trim: true,
