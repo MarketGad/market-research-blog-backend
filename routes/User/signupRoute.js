@@ -59,14 +59,15 @@ router.post('/signupUser', async (req, res, next) => {
                         from:`${"no-reply-otp-verification@marketgad.com"}`,
                         to : `${req.body.email}`,
                         subject : `Please don't reply to this mail`,
-                        html: `<div style="font-family: monospace;" >
-                                <h2 >
-                                    use this OTP to verify your MarketGad account.<br>
-                                </h2>
-                                <div style="padding: 10px;background-color: rgb(235, 255, 255); font-size: 40px ">
-                                        <p>${otp}</p>
-                                </div>
-                            </div>`,
+                        html:   `<div >
+                                    <h3>
+                                        use this OTP to verify your MarketGad account.<br>
+                                    </h3>
+                                    <div style="padding: 10px;background-color: #dedede;text-align: center; font-size: 40px ">
+                                            <p>${otp}</p>
+                                    </div>
+                                    <h3>Don't Reply</h3>
+                                </div>`,
                 
                     }
 
@@ -100,14 +101,15 @@ router.post('/sendotp', async (req,res) => {
                 from:`${"no-reply-otp-verification@marketgad.com"}`,
                 to : `${req.body.email}`,
                 subject : `Please don't reply to this mail`,
-                html: `<div >
-                        <h4 >
-                            use this OTP to verify your MarketGad account.<br>
-                        </h4>
-                        <div style="padding: 10px;background-color: rgb(235, 255, 255); font-size: 40px ">
-                                <p>${otp}</p>
-                        </div>
-                    </div>`,
+                html:   `<div >
+                            <h3>
+                                use this OTP to verify your MarketGad account.<br>
+                            </h3>
+                            <div style="padding: 10px;background-color: #dedede;text-align: center; font-size: 40px ">
+                                    <p>${otp}</p>
+                            </div>
+                            <h3>Don't Reply</h3>
+                        </div>`,
 
             }
 
