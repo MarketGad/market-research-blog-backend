@@ -19,7 +19,7 @@ const ideaSubmitroute = require('./routes/ideasubmitroute');
 const subscribeRoute = require('./routes/subscriberoute');
 const JobProfilesRouter = require('./routes/jobProfile/jobProfileRouter')
 const ProductDetailsRouter = require('./routes/productsDetails/productDetailsRouter')
-
+const resetPasswordRoute = require('./routes/User/resetPasswordRoute');
 
 
 app.use(cors());
@@ -55,9 +55,10 @@ app.use(cookieParser());
 app.use(passport.initialize());
 // console.log("passport initialised")
 
-app.use("/api", signupRoute);
-app.use("/api", loginRoute);
-app.use("/api", googleLoginRoute);
+app.use("/api/user", signupRoute);
+app.use("/api/user", loginRoute);
+app.use("/api/user", resetPasswordRoute);
+app.use("/api/user", googleLoginRoute);
 app.use("/api", ideaSubmitroute);
 app.use("/api", subscribeRoute);
 app.use('/api/jobprofiles', JobProfilesRouter)
@@ -73,15 +74,15 @@ app.use('/api/productdetails', ProductDetailsRouter)
 // });
 
 // error handler
-// app.use(function (err, req, res, next) {
-//   // set locals, only providing error in development
-//   res.locals.message = err.message;
-//   res.locals.error = req.app.get('env') === 'development' ? err : {};
+app.use(function (err, req, res, next) {
+  // set locals, only providing error in development
+  res.locals.message = err.message;
+  res.locals.error = req.app.get('env') === 'development' ? err : {};
 
-//   // render the error page
-//   res.status(err.status || 500);
-//   res.render('error');
-// });
+  // render the error page
+  res.status(err.status || 500);
+  res.render('error');
+});
 const port = config.PORT;
 app.listen(port, () => {
   console.log(`Server running at http://localhost:${port}`);

@@ -3,14 +3,12 @@ const router = express.Router();
 
 // Import models
 const User = require('../../Models/UserNewModel');
-const Otp = require('../../Models/OtpModel');
 
 var passport = require('passport');
 var nodemailer = require("nodemailer");
 
 
 const config = require('../../config');
-const OtpModel = require('../../Models/OtpModel');
 
 // console.log(config)
 
