@@ -38,11 +38,6 @@ const UserSchema = new mongoose.Schema({
         default: false,
         required: false,
     },
-    otp: {
-        type: Number,
-        required: false,
-        default: " ",
-    }
 
 }, { timestamps: true });
 

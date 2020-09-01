@@ -1,9 +1,16 @@
 const express = require('express');
 const router = express.Router();
+
+// Import models
 const User = require('../../Models/UserNewModel');
+const Otp = require('../../Models/OtpModel');
+
 var passport = require('passport');
 var nodemailer = require("nodemailer");
+
+
 const config = require('../../config');
+const OtpModel = require('../../Models/OtpModel');
 
 // console.log(config)
 
@@ -21,6 +28,9 @@ function getRandomArbitrary(min, max) {
 }
 
 var otp = getRandomArbitrary(123456, 987654);
+
+// a dict to store otp based on email.
+var StoreOtpValue = new Map();
 
 router.post('/signupUser', async (req, res, next) => {
     // req.body={
@@ -55,8 +65,17 @@ router.post('/signupUser', async (req, res, next) => {
                     console.log("before mail")
                     console.log(req.body);
                     otp = getRandomArbitrary(123456, 987654);
-                    user.otp = otp;
-                    user.save();
+                    // user.otp = otp;
+                    // user.save();
+
+                    // const otpModelParameter = {
+                    //     email: req.body.email,
+                    //     otp: otp
+                    // }
+                    // OtpModel.create(otpModelParameter);
+
+                    StoreOtpValue.set(req.body.email, otp);
+
                     var mailOptions = {
                         from:`${"no-reply-otp-verification@marketgad.com"}`,
                         to : `${req.body.email}`,
@@ -99,6 +118,10 @@ router.post('/sendotp', async (req,res) => {
             otp = getRandomArbitrary(123456, 987654);
             user.otp = otp;
             user.save();
+
+            // update the otp map
+            StoreOtpValue.set(req.body.email, otp);
+
             var mailOptions = {
                 from:`${"no-reply-otp-verification@marketgad.com"}`,
                 to : `${req.body.email}`,
@@ -146,7 +169,7 @@ router.post('/otpverify', async ( req, res, next) => {
     User.findOne({email: req.body.email}, (err, user) => {
         if(user){
             console.log(user);
-            if(req.body.otp == user.otp) {
+            if(req.body.otp == StoreOtpValue.get(req.body.email)) {
                 user.isEmailVerified = true;
                 user.save()
                 res.statusCode = 200;
