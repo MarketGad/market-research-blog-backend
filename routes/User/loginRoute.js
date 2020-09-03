@@ -19,6 +19,7 @@ router.post('/loginUser', passport.authenticate('local'), (req, res) => {
                 }
                 res.statusCode = 200;
                 res.setHeader('Content-Type', 'application/json');
+                res.cookie('token', token, { httpOnly: true });
                 res.json({success: true, token: token, userData: userData , status: 'You are successfully logged in!'});
             } else {
                 res.statusCode = 500;
