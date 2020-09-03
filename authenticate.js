@@ -20,7 +20,6 @@ passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser()); 
 
 exports.getToken = function(user) {
-    console.log("inside get token function")
     return jwt.sign(user, config.JWT_SIGNIN_KEY,
         {expiresIn: '7d'});
 };

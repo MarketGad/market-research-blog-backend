@@ -1,7 +1,7 @@
 const api =[
         {
             method: "POST",
-            api: "http://localhost:5000/api/loginUser",
+            api: "http://localhost:5000/api/user/loginUser",
             body: {
                 "username": "sai-bot",
                 "password": "iambot"
@@ -9,7 +9,7 @@ const api =[
         },
         {
             method: "POST",
-            api: "http://localhost:5000/api/signupUser",
+            api: "http://localhost:5000/api/user/signupUser",
             body: {
                 "username": "sidhartha7",
                 "firstname": "Sidhartha",
@@ -21,14 +21,14 @@ const api =[
         },
         {
             method: "POST",
-            api: "http://localhost:5000/api/sendotp",
+            api: "http://localhost:5000/api/user/sendotp",
             body: {
                 "email": "b118055@iiit-bh.ac.in"
             }
         },
         {
             method: "POST",
-            api: "http://localhost:5000/api/otpverify",
+            api: "http://localhost:5000/api/user/otpverify",
             body: {
                 "email": "b118055@iiit-bh.ac.in",
                 "otp": "883889"
@@ -48,6 +48,15 @@ const api =[
                 "experience": "2+ years of experience in lore, lorem, lorem, lorem. 1+ years of exeperience in so and so",
                 "grade": "3"
             }
-        }
+        },
+        {
+            method: "POST",
+            api: "http://localhost:5000/api/user/resetpassword",
+            body: {
+                "email": "b118055@iiit-bh.ac.in",
+                "oldpassword": "xxxxxx",
+                "newpassword": "xxxxxx",
+            }
+        },
 
     ]

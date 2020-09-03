@@ -8,14 +8,25 @@ const User = require('../../Models/UserNewModel');
 
 
 ResetPasswordRouter.use(bodyParser.json());
-ResetPasswordRouter.route('/')
+ResetPasswordRouter.route('/resetpassword')
     .post(authenticate.verifyUser, (req, res, next) => {
         User.findOne({email: req.body.email}, (err, user) => {
+
             if(user){
-                user.changePassword(req.body.oldpassword, req.body.newpassword, (err) => {
-                    res.statusCode = 403;
-                    res.end('Please Enter Correct Old Password');
+                console.log(user)
+                console.log(req.body)
+                user.changePassword(req.body.oldpassword, req.body.newpassword, (err, user) => {
+                    if(err){
+                        res.statusCode = 403;
+                        res.json({err: err})
+                        return
+                    } else {
+                        res.statusCode = 200;
+                        res.json({success: "Successfully changed your password"})
+                        return
+                    }
                 })
+                user.save();
             } else {
                 res.statusCode = 500;
                 res.setHeader('Content-Type', 'application/json');
