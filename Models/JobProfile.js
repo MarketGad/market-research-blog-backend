@@ -56,6 +56,10 @@ const JobProfile = new mongoose.Schema({
     experience:{
         type: String,
         required: false,
+    },
+    upvotes: {
+        type: String,
+        required: true
     }
 
 

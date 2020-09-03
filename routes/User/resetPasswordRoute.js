@@ -12,6 +12,12 @@ ResetPasswordRouter.route('/resetpassword')
     .post(authenticate.verifyUser, (req, res, next) => {
         User.findOne({email: req.body.email}, (err, user) => {
 
+            //  Heads UP for me
+            //  Even if one tries to change your one's using pass using its one JWT, he/she would have to
+            //  know the old password, then only its gonna be possible.
+
+
+
             if(user){
                 console.log(user)
                 console.log(req.body)
