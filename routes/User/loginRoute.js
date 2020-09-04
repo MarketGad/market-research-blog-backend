@@ -9,18 +9,10 @@ router.post('/loginUser', passport.authenticate('local'), (req, res) => {
         if(user){
             if(user.isEmailVerified) {
                 var token = authenticate.getToken({_id: req.user._id});
-                userData = {
-                    _id: req.user._id,
-                    username: req.user.username,
-                    firstname: req.user.firstname,
-                    lastname: req.user.lastname,
-                    email: req.user.email,
-                    phone: req.user.phone,
-                }
                 res.statusCode = 200;
                 res.setHeader('Content-Type', 'application/json');
                 res.cookie('session-id', token, { httpOnly: true });
-                res.json({success: true, token: token, userData: userData , status: 'You are successfully logged in!'});
+                res.json({success: true, token: token, user: user , status: 'You are successfully logged in!'});
             } else {
                 res.statusCode = 500;
                 res.setHeader('Content-Type', 'application/json');
