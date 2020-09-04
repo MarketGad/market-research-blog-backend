@@ -11,8 +11,9 @@ router.post('/loginUser', passport.authenticate('local'), (req, res) => {
                 var token = authenticate.getToken({_id: req.user._id});
                 res.statusCode = 200;
                 res.setHeader('Content-Type', 'application/json');
-                res.cookie('session-id', token, { httpOnly: true });
+                res.cookie('session-id', token, { httpOnly: false });
                 res.json({success: true, token: token, user: user , status: 'You are successfully logged in!'});
+                console.log(res)
             } else {
                 res.statusCode = 500;
                 res.setHeader('Content-Type', 'application/json');

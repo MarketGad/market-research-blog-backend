@@ -31,7 +31,11 @@ const UserSchema = new mongoose.Schema(
 			type: Boolean,
 			default: false,
 			required: false
-		}
+		},
+		reputation: {
+			type: String,
+			required: true
+		},
 	},
 	{ timestamps: true }
 );
