@@ -1,6 +1,6 @@
-// const createError = require('http-errors');
+const createError = require('http-errors');
 const express = require('express');
-// const path = require('path');
+const path = require('path');
 const bodyParser = require('body-parser');
 const mongoose = require("mongoose");
 const cookieParser = require('cookie-parser');
@@ -15,6 +15,8 @@ var authenticate = require('./authenticate');
 const googleLoginRoute = require('./routes/googleloginroute');
 const signupRoute = require('./routes/User/signupRoute');
 const loginRoute = require('./routes/User/loginRoute');
+const logoutRoute = require('./routes/User/logoutRoute');
+
 const ideaSubmitroute = require('./routes/ideasubmitroute');
 const subscribeRoute = require('./routes/subscriberoute');
 const JobProfilesRouter = require('./routes/jobProfile/jobProfileRouter')
@@ -40,6 +42,9 @@ mongoose.connect(mongodburl, {
   console.log(error);
 });
 
+// view engine setup
+app.set('views', path.join(__dirname, 'views'));
+app.set('view engine', 'jade');
 
 app.use(express.json());
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -57,6 +62,8 @@ app.use(passport.initialize());
 
 app.use("/api/user", signupRoute);
 app.use("/api/user", loginRoute);
+app.use("/api/user", logoutRoute);
+
 app.use("/api/user", resetPasswordRoute);
 app.use("/api/user", googleLoginRoute);
 app.use("/api", ideaSubmitroute);
@@ -73,7 +80,7 @@ app.use('/api/productdetails', ProductDetailsRouter)
 //   next(createError(404));
 // });
 
-// error handler
+// // error handler
 app.use(function (err, req, res, next) {
   // set locals, only providing error in development
   res.locals.message = err.message;
