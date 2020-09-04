@@ -34,7 +34,7 @@ const UserSchema = new mongoose.Schema(
 		},
 		reputation: {
 			type: String,
-			required: true
+			required: false
 		},
 	},
 	{ timestamps: true }
