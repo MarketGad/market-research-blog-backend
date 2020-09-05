@@ -7,6 +7,8 @@ const cookieParser = require('cookie-parser');
 const cors = require('cors');
 const config = require('./config');
 const app = express();
+var JWT = require('jsonwebtoken'); // used to create, sign, and verify tokens
+
 var passport = require('passport');
 var authenticate = require('./authenticate');
 
@@ -22,6 +24,7 @@ const subscribeRoute = require('./routes/subscriberoute');
 const JobProfilesRouter = require('./routes/jobProfile/jobProfileRouter')
 const ProductDetailsRouter = require('./routes/productsDetails/productDetailsRouter')
 const resetPasswordRoute = require('./routes/User/resetPasswordRoute');
+const { ETXTBSY } = require('constants');
 
 
 app.use(cors());
@@ -59,6 +62,7 @@ app.use(cookieParser());
 // to authenticate user
 app.use(passport.initialize());
 // console.log("passport initialised")
+
 
 app.use("/api/user", signupRoute);
 app.use("/api/user", loginRoute);

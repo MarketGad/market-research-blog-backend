@@ -26,6 +26,7 @@ jobProfileRouter.route('/')
     .catch((err) => next(err));
 })
 .post( authenticate.verifyUser, (req, res, next) => {
+    req.body.user = req.user._id
     JobProfile.create(req.body)
     .then((profile) => {
         console.log('Profile Created ', profile);
