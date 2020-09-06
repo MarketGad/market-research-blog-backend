@@ -12,6 +12,7 @@ const User = require('../../Models/UserNewModel');
 const ProductDetails = require('../../Models/ProductDetails');
 
 
+// PART 1
 
 productDetailsRouter.use(bodyParser.json());
 productDetailsRouter.route('/')
@@ -44,6 +45,10 @@ productDetailsRouter.route('/')
     res.statusCode = 403;
     res.end('delete operation not supported yet');
 })
+
+
+// PART 2 
+
 
 productDetailsRouter.route('/:productID')
 .get((req, res, next) => {
@@ -81,6 +86,9 @@ productDetailsRouter.route('/:productID')
     }, (err) => next(err))
     .catch((err) => next(err));
 });
+
+
+// COMMENTS  PART 3
 
 productDetailsRouter.route('/:productID/comments')
 .get((req, res, next) => {
@@ -127,6 +135,10 @@ productDetailsRouter.route('/:productID/comments')
     res.end("DELETE operation not supported on /productdetails"
     + req.params.productID+"/comments");
 });
+
+
+// PART 4
+
 
 productDetailsRouter.route('/:productID/comments/:commentsID')
 .get((req, res, next) => {
