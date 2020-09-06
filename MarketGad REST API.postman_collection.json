@@ -1,0 +1,246 @@
+{
+	"info": {
+		"_postman_id": "ca2ee443-cee8-4abd-bb4f-b08bdf6277f3",
+		"name": "MarketGad REST API",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Product",
+			"item": [
+				{
+					"name": "Product Details",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1ZjUyNzQ2NmJjZGRkMTAwMDQ0NWI5NTkiLCJpYXQiOjE1OTk0MTI4ODQsImV4cCI6MTYwMDAxNzY4NH0.lbJ6Y9griIkidv4_Zx5_wQGGJr62Tv8Sid5pn_v_Jl4",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\" : \"Hello Product\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:5000/api/productdetails/",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"productdetails",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "post comments",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1ZjUyNzQ2NmJjZGRkMTAwMDQ0NWI5NTkiLCJpYXQiOjE1OTk0MTI4ODQsImV4cCI6MTYwMDAxNzY4NH0.lbJ6Y9griIkidv4_Zx5_wQGGJr62Tv8Sid5pn_v_Jl4",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"comment\": \"comment PUT tested\",\n    \"rating\": \"4\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:5000/api/productdetails/5f53249372fb045d1ba69a51/comments/",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"productdetails",
+								"5f53249372fb045d1ba69a51",
+								"comments",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GET comments",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:5000/api/productdetails/5f53249372fb045d1ba69a51/comments",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"productdetails",
+								"5f53249372fb045d1ba69a51",
+								"comments"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "PUT Comments",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1ZjUyNzQ2NmJjZGRkMTAwMDQ0NWI5NTkiLCJpYXQiOjE1OTk0MTI4ODQsImV4cCI6MTYwMDAxNzY4NH0.lbJ6Y9griIkidv4_Zx5_wQGGJr62Tv8Sid5pn_v_Jl4",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"comment\": \"comment PUT tested\",\n    \"rating\": \"4\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:5000/api/productdetails/5f53249372fb045d1ba69a51/comments/5f551fd34f93a09777b5ae09",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"productdetails",
+								"5f53249372fb045d1ba69a51",
+								"comments",
+								"5f551fd34f93a09777b5ae09"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "DELETE comment",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1ZjUyNzQ2NmJjZGRkMTAwMDQ0NWI5NTkiLCJpYXQiOjE1OTk0MTI4ODQsImV4cCI6MTYwMDAxNzY4NH0.lbJ6Y9griIkidv4_Zx5_wQGGJr62Tv8Sid5pn_v_Jl4",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:5000/api/productdetails/5f53249372fb045d1ba69a51/comments/5f551fd34f93a09777b5ae09",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"productdetails",
+								"5f53249372fb045d1ba69a51",
+								"comments",
+								"5f551fd34f93a09777b5ae09"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Post Product",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": ""
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "PUT Product Details",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1ZjUyNzQ2NmJjZGRkMTAwMDQ0NWI5NTkiLCJpYXQiOjE1OTk0MTI4ODQsImV4cCI6MTYwMDAxNzY4NH0.lbJ6Y9griIkidv4_Zx5_wQGGJr62Tv8Sid5pn_v_Jl4",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\" : \"Hello Product 111\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:5000/api/productdetails/5f552406b18773999cb82e20",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"productdetails",
+								"5f552406b18773999cb82e20"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		}
+	],
+	"protocolProfileBehavior": {}
+}

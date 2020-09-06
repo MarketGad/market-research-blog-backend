@@ -101,11 +101,14 @@ productDetailsRouter.route('/:productID/comments')
     }, (err) => next(err))
     .catch((err) => next(err))
 })
-.post( authenticate.verifyUser, (req, res, next) => {
+.post( authenticate.verifyUser,  (req, res, next) => {
     ProductDetails.findById(req.params.productID)
-    .then((product) => {
+    .then(async (product) => {
         if(product != null){
+
             req.body.author = req.user._id; 
+            // console.log(req.body)
+
             product.comments.push(req.body);
             product.save()
             .then((product) => {
@@ -140,7 +143,7 @@ productDetailsRouter.route('/:productID/comments')
 // PART 4
 
 
-productDetailsRouter.route('/:productID/comments/:commentsID')
+productDetailsRouter.route('/:productID/comments/:commentID')
 .get((req, res, next) => {
     ProductDetails.findById(req.params.productID)
     .then((product) => {
@@ -169,7 +172,7 @@ productDetailsRouter.route('/:productID/comments/:commentsID')
 .put( authenticate.verifyUser, (req, res, next) => {
     ProductDetails.findById(req.params.productID)
         .then((product) => {
-
+            // console.log(product)
             if(!product.comments.id(req.params.commentID).author.equals(req.user._id) ){
                 err = new Error(' You are not authorized to perform this operation!');
                 err.status = 403;

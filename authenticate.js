@@ -36,7 +36,7 @@ exports.jwtPassport = passport.use(new JwtStrategy(opts,
                 return done(err, false);
             }
             else if (user) {
-                console.log(user)
+                // console.log(user)
                 // req.body.userId = user._id
                 return done(null, user);
             }

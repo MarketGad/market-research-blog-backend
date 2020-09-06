@@ -3,13 +3,11 @@ const mongoose = require('mongoose');
 const CommentSchema = new mongoose.Schema({
     rating: {
         type: Number,
-        min: 1,
-        max: 5,
-        required: true
+        required: false
     },
     comment: {
         type: String,
-        required: true
+        required: false
     },
     author: {
         type: mongoose.Schema.Types.ObjectId,
@@ -33,28 +31,34 @@ const ProductDetails = new mongoose.Schema({
     },
     logo: {
         type: String,
+        default: "",
         required: false
     },
     description: {
         type: String,
+        default: "",
         required: false
     },
     upvotes: {
         type: Number,
+        default: 0,
         required: false,
     },
-    downvotes: {
+    reputation: {
         type: Number,
+        default: 0,
         required: false,
     },
     rating: {
         type: Number,
         min: 1,
         max: 5,
+        default: 1,
         required: false,
     },
     link: {
         type: String,
+        default: "",
         required: false,
     },
     comments: [CommentSchema]
