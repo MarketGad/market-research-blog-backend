@@ -45,6 +45,187 @@ productDetailsRouter.route('/')
     res.end('delete operation not supported yet');
 })
 
+productDetailsRouter.route('/:productID')
+.get((req, res, next) => {
+    ProductDetails.findById(req.params.productID)
+    .populate('comments.author')
+    .then((product)=> {
+        res.statusCode = 200;
+        res.setHeader('Content-Type', 'application/json');
+        res.json(product)
+    }, (err) => next(err))
+    .catch((err) => next(err))
+})
+.post( authenticate.verifyUser, (req, res, next) => {
+    res.statusCode = 403;
+    res.end('POST operation not supported on /products/' + req.params.productID);
+})
+.put( authenticate.verifyUser,  (req, res, next) => {
+    ProductDetails.findByIdAndUpdate(req.params.productID, {
+        $set: req.body
+    }, { new: true})
+    .then((product) => {
+        res.statusCode = 200;
+        res.setHeader('Content-Type', 'application/json');
+        res.json(product)
+    }, (err) => next(err))
+    .catch((err) => next(err));
+})
+.delete( authenticate.verifyUser, (req, res, next) => {
+    ProductDetails.findByIdAndRemove(req.params.productID)
+    .then((resp) => {
 
+        res.statusCode = 200;
+        res.setHeader('Content-Type', 'application/json');
+        res.json(resp);
+    }, (err) => next(err))
+    .catch((err) => next(err));
+});
+
+productDetailsRouter.route('/:productID/comments')
+.get((req, res, next) => {
+    ProductDetails.findById(req.params.productID)
+    .populate('comments.author')
+    .then((product)=> {
+        res.statusCode = 200;
+        res.setHeader('Content-Type', 'application/json');
+        res.json(product.comments)
+    }, (err) => next(err))
+    .catch((err) => next(err))
+})
+.post( authenticate.verifyUser, (req, res, next) => {
+    ProductDetails.findById(req.params.productID)
+    .then((product) => {
+        if(product != null){
+            req.body.author = req.user._id; 
+            product.comments.push(req.body);
+            product.save()
+            .then((product) => {
+                ProductDetails.findById(product._id)
+                    .populate('comments.author')
+                    .then((product) => {
+                        res.statusCode = 200;
+                        res.setHeader('Content-Type', 'application/json');
+                        res.json(product.comments);
+                    })    
+            }, (err) => next(err));
+        }else{
+            err = new Error(' Product '+ req.params.productID+' not found.');
+            err.status = 404;
+            return next(err);
+        }
+    }, (err) => next(err))
+    .catch((err) => next(err));
+})
+.put( authenticate.verifyUser,  (req, res, next) => {
+    res.statusCode = 403;
+    res.end("PUT operation not supported on /productdetails"
+    + req.params.productID+"/comments");
+})
+.delete( authenticate.verifyUser, (req, res, next) => {
+    res.statusCode = 403;
+    res.end("DELETE operation not supported on /productdetails"
+    + req.params.productID+"/comments");
+});
+
+productDetailsRouter.route('/:productID/comments/:commentsID')
+.get((req, res, next) => {
+    ProductDetails.findById(req.params.productID)
+    .then((product) => {
+        if(product != null && product.comments.id(req.params.commentID) != null ){
+            res.statusCode = 200;
+            res.setHeader('Content-Type', 'application/json');
+            res.json(product.comments.id(req.params.commentID))
+        } else if(product == null ) {
+            err = new Error(' product '+ req.params.productID+' not found.');
+            err.status = 404;
+            return  next(err);
+        } else {
+            err = new Error(' Product '+ req.params.productID+' not found.');
+            err.status = 404;
+            return next(err);
+        }
+    }, (err) => next(err))
+    .catch((err) => next(err));
+})
+.post( authenticate.verifyUser, (req, res, next) => {
+    res.statusCode = 403;
+    res.end('POST operation not supported on /product/' 
+            + req.params.productID+'/comments/'
+            +req.params.commentID+' not found');
+})
+.put( authenticate.verifyUser, (req, res, next) => {
+    ProductDetails.findById(req.params.productID)
+        .then((product) => {
+
+            if(!product.comments.id(req.params.commentID).author.equals(req.user._id) ){
+                err = new Error(' You are not authorized to perform this operation!');
+                err.status = 403;
+                return next(err);
+            }
+            else if(product != null && product.comments.id(req.params.commentID )!= null ){
+                if(req.body.rating){
+                    product.comments.id(req.params.commentID).rating = req.body.rating;
+                }
+                if(req.body.comment){
+                    product.comments.id(req.params.commentID).comment = req.body.comment;
+                }
+                product.save()
+                    .then((product) => {
+                        ProductDetails.findById(product._id)
+                            .populate('comments.author')
+                            .then((product) => {
+                                res.statusCode = 200;
+                                res.setHeader('Content-Type', 'application/json');
+                                res.json(product.comments);
+                            })
+                    }, (err) => next(err));
+
+            }else if(product == null){
+                err = new Error(' Product '+ req.params.productID+' not found.');
+                err.status = 404;
+                return next(err);
+            }else{
+                err = new Error(' Comment '+ req.params.commentID+' not found.');
+                err.status = 404;
+                return next(err);
+            }
+        }, (err) => next(err))
+        .catch((err) => next(err));
+})
+.delete( authenticate.verifyUser, (req, res, next) => {
+    ProductDetails.findById(req.params.productID)
+    .then((product) => {
+        // console.log(product.comments.id(req.params.commentID).author +"  "+ req.user._id );
+        if(!product.comments.id(req.params.commentID).author.equals(req.user._id) ){
+            err = new Error(' You are not authorized to perform this operation!');
+            err.status = 403;
+            return next(err);
+        }
+        else if(product != null && product.comments.id(req.params.commentID  )!= null ){
+            product.comments.id(req.params.commentID ).remove();
+            product.save()
+            .then((product) => {
+                ProductDetails.findById(product._id)
+                    .populate('comments.author')
+                        .then((product) => {
+                            res.statusCode = 200;
+                            res.setHeader('Content-Type', 'application/json');
+                            res.json(product.comments);
+                        })
+            }, (err) => next(err));
+
+        }else if(product == null){
+            err = new Error(' product ' + req.params.productID + ' not found.');
+            err.status = 404;
+            return next(err);
+        }else{
+            err = new Error(' Comment '+ req.params.commentID+' not found.');
+            err.status = 404;
+            return next(err);
+        }
+    }, (err) => next(err))
+    .catch((err) => next(err));
+});
 
 module.exports = productDetailsRouter;
