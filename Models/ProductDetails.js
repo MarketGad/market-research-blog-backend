@@ -17,6 +17,14 @@ const CommentSchema = new mongoose.Schema({
     timestamps: true
 });
 
+const UpvotesList = new mongoose.Schema({
+    author: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'NewUser',
+        unique: true,
+    }
+})
+
 
 const ProductDetails = new mongoose.Schema({
     user: {
@@ -44,6 +52,7 @@ const ProductDetails = new mongoose.Schema({
         default: 0,
         required: false,
     },
+    upvotesList: [UpvotesList],
     reputation: {
         type: Number,
         default: 0,

@@ -11,10 +11,14 @@ var authenticate = require('../../authenticate');
 const User = require('../../Models/UserNewModel');
 const ProductDetails = require('../../Models/ProductDetails');
 
+productDetailsRouter.use(bodyParser.json());
+
+
+
 
 // PART 1
 
-productDetailsRouter.use(bodyParser.json());
+
 productDetailsRouter.route('/')
 .get((req, res, next) => {
     ProductDetails.find({})
@@ -105,10 +109,7 @@ productDetailsRouter.route('/:productID/comments')
     ProductDetails.findById(req.params.productID)
     .then(async (product) => {
         if(product != null){
-
             req.body.author = req.user._id; 
-            // console.log(req.body)
-
             product.comments.push(req.body);
             product.save()
             .then((product) => {
@@ -139,9 +140,7 @@ productDetailsRouter.route('/:productID/comments')
     + req.params.productID+"/comments");
 });
 
-
 // PART 4
-
 
 productDetailsRouter.route('/:productID/comments/:commentID')
 .get((req, res, next) => {
@@ -242,5 +241,42 @@ productDetailsRouter.route('/:productID/comments/:commentID')
     }, (err) => next(err))
     .catch((err) => next(err));
 });
+
+
+productDetailsRouter.route('/:productID/upvotes/add')
+.get((req, res, next) => {
+    res.statusCode = 403;
+    res.end('GET operation not supported yet');
+})
+.post(authenticate.verifyUser, (req, res, next) => {
+    ProductDetails.findById(req.params.productID)
+    .then(( product) => {
+        if( product != null){
+            if(!product.upvotesList.includes(req.user._id)){
+                res.statusCode = 404
+                res.setHeader('Content-Type', 'application/json')
+                res.json({success: false, message: "already upvotes"})
+            } else {
+                product.upvotesList.push(req.user._id)
+                product.save()
+                res.statusCode = 200
+                res.setHeader('Content-Type', 'application/json')
+                res.json({success: true, message: "upvote added"})
+            }
+        } else {
+            err = new Error(' Product '+ req.params.productID+' not found.');
+            err.status = 404;
+            return next(err);
+        }
+    })
+})
+.put(authenticate.verifyUser, (req, res, next) => {
+    res.statusCode = 403;
+    res.end('PUT operation not supported yet');
+})
+.delete(authenticate.verifyUser, (req, res, next) => {
+    res.statusCode = 403;
+    res.end('DELETE operation not supported yet');
+})
 
 module.exports = productDetailsRouter;
