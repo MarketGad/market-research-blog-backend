@@ -31,18 +31,38 @@ const ProductDetails = new mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: 'NewUser',
     },
+    logo: {
+        type: String,
+        default: "",
+        required: false
+    },
     name: {
         type: String,
         trim: true,
         required: true,
         unique: true,
     },
-    logo: {
+    websiteLink:{
         type: String,
         default: "",
         required: false
     },
-    description: {
+    playStoreLink: {
+        type: String,
+        default: "",
+        required: false,
+    },
+    appStoreLink: {
+        type: String,
+        default: "",
+        required: false,
+    },
+    briefDescription: {
+        type: String,
+        default: "",
+        required: false
+    },
+    detailedDescription: {
         type: String,
         default: "",
         required: false
@@ -58,18 +78,24 @@ const ProductDetails = new mongoose.Schema({
         default: 0,
         required: false,
     },
-    rating: {
-        type: Number,
-        min: 1,
-        max: 5,
-        default: 1,
-        required: false,
-    },
-    link: {
+    pointOfContact:{
         type: String,
         default: "",
-        required: false,
+        required: false
     },
+    emailId:{
+        type: String,
+        trim: true,
+        required: true,
+        unique: true
+    },
+    // rating: {
+    //     type: Number,
+    //     min: 1,
+    //     max: 5,
+    //     default: 1,
+    //     required: false,
+    // },
     comments: [CommentSchema]
 
 

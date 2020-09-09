@@ -25,6 +25,9 @@ productDetailsRouter.route('/')
     .populate('comments.author')
     .populate('user')
     .then((profiles) => {
+        
+        // sort the "product profiles" here based on reputation point
+
         res.statusCode = 200;
         res.setHeader('Content-Type', 'application/json');
         res.json(profiles)
@@ -255,7 +258,7 @@ productDetailsRouter.route('/:productID/upvotes/add')
             if(!product.upvotesList.includes(req.user._id)){
                 res.statusCode = 404
                 res.setHeader('Content-Type', 'application/json')
-                res.json({success: false, message: "already upvotes"})
+                res.json({success: false, message: "already upvoted"})
             } else {
                 product.upvotesList.push(req.user._id)
                 product.save()
