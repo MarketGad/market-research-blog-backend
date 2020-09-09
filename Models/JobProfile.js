@@ -31,7 +31,36 @@ const JobProfile = new mongoose.Schema({
     experience:{
         type: String,
         required: false,
+    },
+    qualification:{
+        type: String,
+        required: false,
+    },
+    passionateAbout:{
+        type: String,
+        required: false,
+    },
+    portfolioLink:{
+        type: String,
+        required: false,
+    },
+    linkedIn:{
+        type: String,
+        required: false,
+    },
+    serviceName:{
+        type: String,
+        required: false,
+    },
+    breifDetails:{
+        type: String,
+        required: false,
+    },
+    offeringPrice:{
+        type: Number,
+        required: false,
     }
+
 
 
 }, { timestamps: true });
