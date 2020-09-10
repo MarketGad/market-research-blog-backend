@@ -240,6 +240,53 @@
 				}
 			],
 			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "jobProfiles",
+			"item": [
+				{
+					"name": "GET JobProfiles",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:5000/api/jobprofiles",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"jobprofiles"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GET Job by ID",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:5000/api/jobprofiles/5f5324700755b35cfe0a49b1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"jobprofiles",
+								"5f5324700755b35cfe0a49b1"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
 		}
 	],
 	"protocolProfileBehavior": {}

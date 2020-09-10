@@ -36,16 +36,20 @@ jobProfileRouter.route('/')
 })
 .put((req, res, next) => {
     res.statusCode = 403;
-    res.end('put operation not supported yet');
+    res.end('put operation not supported');
 })
 .delete((req, res, next) => {
     res.statusCode = 403;
-    res.end('delete operation not supported yet');
+    res.end('delete operation not supported');
 })
+
+
+// PART 2
 
 jobProfileRouter.route('/:jobId')
 .get((req, res, next) => {
     JobProfile.findById(req.params.jobId)
+    .populate('user')
     .then((job)=> {
         res.statusCode = 200;
         res.setHeader('Content-Type', 'application/json');
@@ -55,7 +59,7 @@ jobProfileRouter.route('/:jobId')
 })
 .post( authenticate.verifyUser, (req, res, next) => {
     res.statusCode = 403;
-    res.end('POST operation not supported on /products/' + req.params.jobId);
+    res.end('POST operation not supported on /jobprofiles/' + req.params.jobId);
 })
 .put( authenticate.verifyUser,  (req, res, next) => {
     JobProfile.findByIdAndUpdate(req.params.jobId, {
