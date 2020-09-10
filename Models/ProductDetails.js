@@ -80,7 +80,7 @@ const ProductDetails = new mongoose.Schema(
 		emailId: {
 			type: String,
 			trim: true,
-			required: true,
+			required: false,
 			unique: true
 		},
 		// rating: {

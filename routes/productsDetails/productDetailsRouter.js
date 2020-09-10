@@ -271,11 +271,12 @@ productDetailsRouter.route('/:productID/upvotes/add')
     res.statusCode = 403;
     res.end('GET operation not supported yet');
 })
-.post(authenticate.verifyUser, (req, res, next) => {
+.post(authenticate.verifyUser, async (req, res, next) => {
     ProductDetails.findById(req.params.productID)
-    .then(( product) => {
+    .then(async ( product) => {
         if( product != null){
-            if(!product.upvotesList.includes(req.user._id)){
+            // console.log(product.upvotesList.indexOf(req.user._id))
+            if(product.upvotesList.indexOf(req.user._id) >= 0){
                 res.statusCode = 404
                 res.setHeader('Content-Type', 'application/json')
                 res.json({success: false, message: "already upvoted"})
@@ -283,7 +284,7 @@ productDetailsRouter.route('/:productID/upvotes/add')
                 product.upvotesList.push(req.user._id)
                 product.upvotes = product.upvotesList.length;
                 product.reputationPoint = 4 * product.comments.length + product.upvotes
-                product.save()
+                await product.save()
                 res.statusCode = 200
                 res.setHeader('Content-Type', 'application/json')
                 res.json({success: true, message: "upvote added"})
