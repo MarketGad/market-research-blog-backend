@@ -29,15 +29,15 @@ const JobProfile = new mongoose.Schema({
         required: false,
     },
     experience:{
-        type: String,
+        type: [String],
         required: false,
     },
     qualification:{
-        type: String,
+        type: [String],
         required: false,
     },
     passionateAbout:{
-        type: String,
+        type: [String],
         required: false,
     },
     portfolioLink:{

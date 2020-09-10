@@ -14,6 +14,16 @@ const ProductDetails = require('../../Models/ProductDetails');
 productDetailsRouter.use(bodyParser.json());
 
 
+function sortByProperty(property){  
+    return function(a,b){  
+       if(a[property] > b[property])  
+          return 1;  
+       else if(a[property] < b[property])  
+          return -1;  
+   
+       return 0;  
+    }  
+ }
 
 
 // PART 1
@@ -26,6 +36,8 @@ productDetailsRouter.route('/')
     .populate('user')
     .then((profiles) => {
         
+        // sort by reputation
+        profiles.sort(sortByProperty("reputationPoint"))
         // sort the "product profiles" here based on reputation point
 
         res.statusCode = 200;
@@ -62,6 +74,8 @@ productDetailsRouter.route('/:productID')
     ProductDetails.findById(req.params.productID)
     .populate('comments.author')
     .then((product)=> {
+        product.reputationPoint = 4 * product.comments.length + product.upvotes
+        product.save()
         res.statusCode = 200;
         res.setHeader('Content-Type', 'application/json');
         res.json(product)
@@ -77,6 +91,8 @@ productDetailsRouter.route('/:productID')
         $set: req.body
     }, { new: true})
     .then((product) => {
+        product.reputationPoint = 4 * product.comments.length + product.upvotes
+        product.save()
         res.statusCode = 200;
         res.setHeader('Content-Type', 'application/json');
         res.json(product)
@@ -86,7 +102,6 @@ productDetailsRouter.route('/:productID')
 .delete( authenticate.verifyUser, (req, res, next) => {
     ProductDetails.findByIdAndRemove(req.params.productID)
     .then((resp) => {
-
         res.statusCode = 200;
         res.setHeader('Content-Type', 'application/json');
         res.json(resp);
@@ -119,6 +134,8 @@ productDetailsRouter.route('/:productID/comments')
                 ProductDetails.findById(product._id)
                     .populate('comments.author')
                     .then((product) => {
+                        product.reputationPoint = 4 * product.comments.length + product.upvotes
+                        product.save()
                         res.statusCode = 200;
                         res.setHeader('Content-Type', 'application/json');
                         res.json(product.comments);
@@ -226,6 +243,8 @@ productDetailsRouter.route('/:productID/comments/:commentID')
                 ProductDetails.findById(product._id)
                     .populate('comments.author')
                         .then((product) => {
+                            product.reputationPoint = 4 * product.comments.length + product.upvotes
+                            product.save()
                             res.statusCode = 200;
                             res.setHeader('Content-Type', 'application/json');
                             res.json(product.comments);
@@ -261,6 +280,7 @@ productDetailsRouter.route('/:productID/upvotes/add')
                 res.json({success: false, message: "already upvoted"})
             } else {
                 product.upvotesList.push(req.user._id)
+                product.reputationPoint = 4 * product.comments.length + product.upvotes
                 product.save()
                 res.statusCode = 200
                 res.setHeader('Content-Type', 'application/json')
@@ -275,11 +295,11 @@ productDetailsRouter.route('/:productID/upvotes/add')
 })
 .put(authenticate.verifyUser, (req, res, next) => {
     res.statusCode = 403;
-    res.end('PUT operation not supported yet');
+    res.end('PUT operation not supported');
 })
 .delete(authenticate.verifyUser, (req, res, next) => {
     res.statusCode = 403;
-    res.end('DELETE operation not supported yet');
+    res.end('DELETE operation not supported');
 })
 
 module.exports = productDetailsRouter;

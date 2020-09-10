@@ -19,7 +19,7 @@ const UserSchema = new mongoose.Schema(
 			trim: true,
 			required: true
 		},
-		picture: {
+		profilePic: {
 			type: String,
 			required: false
 		},

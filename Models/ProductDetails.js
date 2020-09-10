@@ -1,10 +1,6 @@
 const mongoose = require('mongoose');
 
 const CommentSchema = new mongoose.Schema({
-    rating: {
-        type: Number,
-        required: false
-    },
     comment: {
         type: String,
         required: false
@@ -73,7 +69,9 @@ const ProductDetails = new mongoose.Schema({
         required: false,
     },
     upvotesList: [UpvotesList],
-    reputation: {
+
+    // reputation point = 4 * no of comments + 1 * upvotes
+    reputationPoint: {
         type: Number,
         default: 0,
         required: false,
