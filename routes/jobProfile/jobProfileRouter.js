@@ -43,6 +43,42 @@ jobProfileRouter.route('/')
     res.end('delete operation not supported yet');
 })
 
+jobProfileRouter.route('/:jobId')
+.get((req, res, next) => {
+    JobProfile.findById(req.params.jobId)
+    .then((job)=> {
+        res.statusCode = 200;
+        res.setHeader('Content-Type', 'application/json');
+        res.json(job)
+    }, (err) => next(err))
+    .catch((err) => next(err))
+})
+.post( authenticate.verifyUser, (req, res, next) => {
+    res.statusCode = 403;
+    res.end('POST operation not supported on /products/' + req.params.jobId);
+})
+.put( authenticate.verifyUser,  (req, res, next) => {
+    JobProfile.findByIdAndUpdate(req.params.jobId, {
+        $set: req.body
+    }, { new: true})
+    .then((job) => {
+        res.statusCode = 200;
+        res.setHeader('Content-Type', 'application/json');
+        res.json(job)
+    }, (err) => next(err))
+    .catch((err) => next(err));
+})
+.delete( authenticate.verifyUser, (req, res, next) => {
+    JobProfile.findByIdAndRemove(req.params.jobId)
+    .then((resp) => {
+        res.statusCode = 200;
+        res.setHeader('Content-Type', 'application/json');
+        res.json(resp);
+    }, (err) => next(err))
+    .catch((err) => next(err));
+});
+
+
 
 
 module.exports = jobProfileRouter;
