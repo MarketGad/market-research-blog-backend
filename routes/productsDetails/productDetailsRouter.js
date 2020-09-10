@@ -73,6 +73,7 @@ productDetailsRouter.route('/:productID')
 .get((req, res, next) => {
     ProductDetails.findById(req.params.productID)
     .populate('comments.author')
+    .populate('user')
     .then((product)=> {
         product.reputationPoint = 4 * product.comments.length + product.upvotes
         product.save()
@@ -280,6 +281,7 @@ productDetailsRouter.route('/:productID/upvotes/add')
                 res.json({success: false, message: "already upvoted"})
             } else {
                 product.upvotesList.push(req.user._id)
+                product.upvotes = product.upvotesList.length;
                 product.reputationPoint = 4 * product.comments.length + product.upvotes
                 product.save()
                 res.statusCode = 200
