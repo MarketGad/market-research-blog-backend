@@ -16,13 +16,11 @@ const CommentSchema = new mongoose.Schema(
 	}
 );
 
-const UpvotesList = new mongoose.Schema({
-	author: {
-		type: mongoose.Schema.Types.ObjectId,
-		ref: 'NewUser',
-		unique: true
-	}
-});
+// const UpvotesList = new mongoose.Schema({
+// 	author: {
+		
+// 	}
+// });
 
 const ProductDetails = new mongoose.Schema(
 	{
@@ -65,7 +63,11 @@ const ProductDetails = new mongoose.Schema(
 			default: 0,
 			required: false
 		},
-		upvotesList: [ UpvotesList ],
+		upvotesList: {
+			type: [mongoose.Schema.Types.ObjectId],
+			ref: 'NewUser',
+			unique: true
+		},
 
 		// reputation point = 4 * no of comments + 1 * upvotes
 		reputationPoint: {
