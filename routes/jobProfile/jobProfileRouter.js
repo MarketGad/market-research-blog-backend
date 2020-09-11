@@ -82,6 +82,44 @@ jobProfileRouter.route('/:jobId')
     .catch((err) => next(err));
 });
 
+// PART 3
+
+jobProfileRouter.route('/:jobId/addrating')
+.get((req, res, next) => {
+    res.statusCode = 403;
+    res.end('GET operation not supported on /jobprofiles/:jobid/addrating' + req.params.jobId);
+})
+.post(authenticate.verifyUser, (req, res, next) => {
+    JobProfile.findById(req.params.jobId)
+    .then(async ( job ) => {
+        if( job != null){
+            if(job.upvotes.indexOf(req.user._id) >= 0){
+                res.statusCode = 404
+                res.setHeader('Content-Type', 'application/json')
+                res.json({success: false, message: "already upvoted"})
+            } else {
+                job.upvotes.push(req.user._id)
+                await job.save()
+                res.statusCode = 200
+                res.setHeader('Content-Type', 'application/json')
+                res.json({success: true, message: "upvote added"})
+            }
+        } else {
+            err = new Error(' job '+ req.params.jobId+' not found.');
+            err.status = 404;
+            return next(err);
+        }
+    })
+})
+.put((req, res, next) => {
+    res.statusCode = 403;
+    res.end('GET operation not supported on /jobprofiles/:jobid/addrating' + req.params.jobId);
+})
+.delete((req, res, next) => {
+    res.statusCode = 403;
+    res.end('POST operation not supported on /jobprofiles/:jobid/addrating' + req.params.jobId);
+});
+
 
 
 

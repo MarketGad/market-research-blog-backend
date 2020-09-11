@@ -9,8 +9,8 @@ const JobProfile = new mongoose.Schema({
         unique: true,
         ref: 'NewUser'
     },
-    rating: {
-        type: Number,
+    upvotes: {
+        type: [mongoose.Schema.Types.ObjectId],
         required: false,
     },
     isHired: {
