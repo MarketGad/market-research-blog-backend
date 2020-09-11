@@ -1,5 +1,5 @@
 # REST API End-points  List
-## sign-up
+## user
 <pre>
 api/user/signupuser
 api/user/sendotp
@@ -21,4 +21,5 @@ api/productdetails/:productID/upvotes/add
 <pre>
 api/jobprofiles
 api/jobprofiles/:jobId
+api/jobprofiles/:jobId/addrating
 </pre>
