@@ -16,12 +16,6 @@ const CommentSchema = new mongoose.Schema(
 	}
 );
 
-// const UpvotesList = new mongoose.Schema({
-// 	author: {
-		
-// 	}
-// });
-
 const ProductDetails = new mongoose.Schema(
 	{
 		user: {

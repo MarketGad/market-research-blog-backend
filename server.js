@@ -40,6 +40,7 @@ mongoose.connect(mongodburl, {
   useUnifiedTopology: true,
   useCreateIndex: true
 })
+
 .then(console.log(`Connected to MongoDB`))
 .catch(error => {
   console.log(error);
@@ -49,11 +50,13 @@ mongoose.connect(mongodburl, {
 // app.set('views', path.join(__dirname, 'views'));
 // app.set('view engine', 'jade');
 
-app.use(express.json());
-app.use(bodyParser.urlencoded({ extended: false }));
-app.use(bodyParser.json());
 
-app.use(express.urlencoded({ extended: false }));
+
+app.use(bodyParser.json({limit: "512kb", extended: true}));
+app.use(bodyParser.urlencoded({limit: "512kb", extended: true}));
+
+app.use(express.json());
+app.use(express.urlencoded({extended: true }));
 app.use(cookieParser());
 // app.get('*', (req, res) => {
 //   res.sendFile(path.join(__dirname, '../client/build/index.html'));

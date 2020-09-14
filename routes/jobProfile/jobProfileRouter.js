@@ -25,8 +25,6 @@ function sortByProperty(){
  }
 
 
-jobProfileRouter.use(bodyParser.json());
-
 jobProfileRouter.route('/')
 .get((req, res, next) => {
     JobProfile.find({})
@@ -58,7 +56,7 @@ jobProfileRouter.route('/')
     
     JobProfile.create(req.body)
     .then((profile) => {
-        console.log('Profile Created ', profile);
+        // console.log('Profile Created ', profile);
         res.json(profile);
     }, (err) => next(err))
     .catch((err) => next(err));

@@ -12,7 +12,8 @@ const User = require('../../Models/UserNewModel');
 const ProductDetails = require('../../Models/ProductDetails');
 const JobProfile = require('../../Models/JobProfile');
 
-productDetailsRouter.use(bodyParser.json());
+productDetailsRouter.use(bodyParser.json({limit: "5000kb", extended: true}));
+productDetailsRouter.use(bodyParser.urlencoded({limit: "5000kb", extended: true}));
 
 const sortByProperty =  require('../../utils/sortByProperty')
 
