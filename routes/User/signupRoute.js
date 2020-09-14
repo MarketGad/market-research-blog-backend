@@ -41,6 +41,7 @@ router.post('/signupUser', async (req, res, next) => {
     // }
     
     // console.log(req.body);
+    req.body.reputation = 1;
     User.register(new User(req.body), req.body.password,  (err, user)=>{
         if(err) {
 			res.statusCode = 500;

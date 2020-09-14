@@ -33,7 +33,7 @@ const UserSchema = new mongoose.Schema(
 			required: false
 		},
 		reputation: {
-			type: String,
+			type: Number,
 			required: false
 		},
 	},

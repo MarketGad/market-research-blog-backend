@@ -6,10 +6,23 @@ const bodyParser = require('body-parser');
 const jobProfileRouter = express.Router();
 var passport = require('passport');
 var authenticate = require('../../authenticate');
+// const sortByP /roperty =  require('../../utils/sortByProperty')
 
 // SCHEMA
 const JobProfile = require('../../Models/JobProfile');
 const User = require('../../Models/UserNewModel');
+
+
+function sortByProperty(){  
+    return function(a,b){  
+       if(a.user.reputation > b.user.reputation)  
+          return 1;  
+       else if(a.user.reputation < b.user.reputation)  
+          return -1;  
+   
+       return 0;  
+    }  
+ }
 
 
 jobProfileRouter.use(bodyParser.json());
@@ -19,6 +32,16 @@ jobProfileRouter.route('/')
     JobProfile.find({})
     .populate('user')
     .then((profiles) => {
+
+        profiles.sort(function(a,b){  
+            if(a.user.reputation < b.user.reputation)  
+               return 1;  
+            else if(a.user.reputation > b.user.reputation)  
+               return -1;  
+        
+            return 0;  
+        })
+
         res.statusCode = 200;
         res.setHeader('Content-Type', 'application/json');
         res.json(profiles)

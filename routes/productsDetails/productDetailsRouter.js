@@ -10,20 +10,12 @@ var authenticate = require('../../authenticate');
 // SCHEMA
 const User = require('../../Models/UserNewModel');
 const ProductDetails = require('../../Models/ProductDetails');
+const JobProfile = require('../../Models/JobProfile');
 
 productDetailsRouter.use(bodyParser.json());
 
+const sortByProperty =  require('../../utils/sortByProperty')
 
-function sortByProperty(property){  
-    return function(a,b){  
-       if(a[property] > b[property])  
-          return 1;  
-       else if(a[property] < b[property])  
-          return -1;  
-   
-       return 0;  
-    }  
- }
 
 
 // PART 1
@@ -137,6 +129,11 @@ productDetailsRouter.route('/:productID/comments')
                     .then((product) => {
                         product.reputationPoint = 4 * product.comments.length + product.upvotes
                         product.save()
+                        User.findById(req.user._id)
+                            .then(async (user) => {
+                                user.reputation = user.reputation + 4;
+                                await user.save();
+                            })
                         res.statusCode = 200;
                         res.setHeader('Content-Type', 'application/json');
                         res.json(product.comments);
@@ -246,6 +243,11 @@ productDetailsRouter.route('/:productID/comments/:commentID')
                         .then((product) => {
                             product.reputationPoint = 4 * product.comments.length + product.upvotes
                             product.save()
+                            User.findById(req.user._id)
+                            .then(async (user) => {
+                                user.reputation = Math.max(0, user.reputation - 4);
+                                await user.save();
+                            })
                             res.statusCode = 200;
                             res.setHeader('Content-Type', 'application/json');
                             res.json(product.comments);
@@ -285,6 +287,18 @@ productDetailsRouter.route('/:productID/upvotes/add')
                 product.upvotes = product.upvotesList.length;
                 product.reputationPoint = 4 * product.comments.length + product.upvotes
                 await product.save()
+                User.findById(req.user._id)
+                .then(async (user) => {
+                    if(user){
+                        console.log(user)
+                        user.reputation = user.reputation|0 + 1;
+                        await user.save();
+                    }else{
+                        res.statusCode = 500
+                        res.setHeader('Content-Type', 'application/json')
+                        res.json({success: false, message: "Databse Error"})
+                    }
+                })
                 res.statusCode = 200
                 res.setHeader('Content-Type', 'application/json')
                 res.json({success: true, message: "upvote added"})
