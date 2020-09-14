@@ -27,6 +27,12 @@ jobProfileRouter.route('/')
 })
 .post( authenticate.verifyUser, (req, res, next) => {
     req.body.user = req.user._id
+    if(req.body.skills) req.body.skills = req.body.skills.split(',')
+    if(req.body.qualification) req.body.qualification = req.body.qualification.split(',')
+    if(req.body.experience)req.body.experience = req.body.experience.split(',')
+    if(req.body.passionateAbout)req.body.passionateAbout = req.body.passionateAbout.split(',')
+    if(req.body.location)req.body.location = req.body.location.split(',')
+    
     JobProfile.create(req.body)
     .then((profile) => {
         console.log('Profile Created ', profile);

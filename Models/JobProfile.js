@@ -5,16 +5,16 @@ const mongoose = require('mongoose');
 const JobProfile = new mongoose.Schema({
 		user: {
 			type: mongoose.Schema.Types.ObjectId,
-			unique: true,
+			unique: false,
 			ref: 'NewUser'
-		},
-		rating: {
-			type: Number,
-			required: false
 		},
 		isHired: {
 			type: Number,
 			required: false
+		},
+		hiredBy: {
+			type: [mongoose.Schema.Types.ObjectId],
+			required: false,
 		},
 		connections: {
 			type: [ String ],
