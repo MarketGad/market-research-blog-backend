@@ -1,8 +1,8 @@
 const express = require('express');
 var passport = require('passport');
 
-const Message = require('../../models/Message');
-const Conversation = require('../../models/Conversation');
+const Message = require('../../Models/Chat/Message');
+const Conversation = require('../../Models/Chat/Conversation');
 var authenticate = require('../../authenticate');
 
 

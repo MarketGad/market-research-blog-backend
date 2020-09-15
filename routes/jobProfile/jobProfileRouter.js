@@ -46,7 +46,7 @@ jobProfileRouter.route('/')
     await cloudinary.uploader.upload(req.body.profilePic, 
         (error, result) => {
             // console.log(result, error)
-            req.body.logo = result.url;
+            req.body.profilePic = result.url;
     }, (err) => next(err))
     .catch((err) => next(err));
 
