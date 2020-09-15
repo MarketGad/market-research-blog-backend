@@ -3,27 +3,16 @@ const bodyParser = require('body-parser');
 
 
 
-const jobProfileRouter = express.Router();
+
 var passport = require('passport');
 var authenticate = require('../../authenticate');
-// const sortByP /roperty =  require('../../utils/sortByProperty')
-
+var {cloudinary} = require('../../utils/cloudinary');
 // SCHEMA
 const JobProfile = require('../../Models/JobProfile');
 const User = require('../../Models/UserNewModel');
 
 
-function sortByProperty(){  
-    return function(a,b){  
-       if(a.user.reputation > b.user.reputation)  
-          return 1;  
-       else if(a.user.reputation < b.user.reputation)  
-          return -1;  
-   
-       return 0;  
-    }  
- }
-
+const jobProfileRouter = express.Router();
 
 jobProfileRouter.route('/')
 .get((req, res, next) => {
@@ -46,7 +35,7 @@ jobProfileRouter.route('/')
     }, (err) => next(err))
     .catch((err) => next(err));
 })
-.post( authenticate.verifyUser, (req, res, next) => {
+.post( authenticate.verifyUser, async (req, res, next) => {
     req.body.user = req.user._id
     if(req.body.skills) req.body.skills = req.body.skills.split(',')
     if(req.body.qualification) req.body.qualification = req.body.qualification.split(',')
@@ -54,6 +43,11 @@ jobProfileRouter.route('/')
     if(req.body.passionateAbout)req.body.passionateAbout = req.body.passionateAbout.split(',')
     if(req.body.location)req.body.location = req.body.location.split(',')
     
+    await cloudinary.uploader.upload(req.body.profilePic, 
+        (error, result) => {
+            // console.log(result, error)
+            req.body.logo = result.url;
+    })
     JobProfile.create(req.body)
     .then((profile) => {
         // console.log('Profile Created ', profile);

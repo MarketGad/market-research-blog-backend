@@ -1,23 +1,26 @@
 const express = require('express');
 const bodyParser = require('body-parser');
-
-
-
-const productDetailsRouter = express.Router();
+var {cloudinary} = require('../../utils/cloudinary');
 var passport = require('passport');
-var authenticate = require('../../authenticate');
 
+
+var authenticate = require('../../authenticate');
+const config = require('../../config');
 // SCHEMA
 const User = require('../../Models/UserNewModel');
 const ProductDetails = require('../../Models/ProductDetails');
 const JobProfile = require('../../Models/JobProfile');
 
-productDetailsRouter.use(bodyParser.json({limit: "5000kb", extended: true}));
-productDetailsRouter.use(bodyParser.urlencoded({limit: "5000kb", extended: true}));
 
 const sortByProperty =  require('../../utils/sortByProperty')
+const productDetailsRouter = express.Router();
 
 
+// cloudinary.config({ 
+//     cloud_name: config.CLOUDINARY_CLOUD_NAME, 
+//     api_key: config.CLOUDINARY_API_KEY, 
+//     api_secret: config.CLOUDINARY_API_SECRET, 
+// });
 
 // PART 1
 
@@ -30,18 +33,30 @@ productDetailsRouter.route('/')
     .then((profiles) => {
         
         // sort by reputation
-        profiles.sort(sortByProperty("reputationPoint"))
-        // sort the "product profiles" here based on reputation point
+        if(profiles){
+            profiles.sort(sortByProperty("reputationPoint"))
+            // sort the "product profiles" here based on reputation point
 
-        res.statusCode = 200;
-        res.setHeader('Content-Type', 'application/json');
-        res.json(profiles)
+            res.statusCode = 200;
+            res.setHeader('Content-Type', 'application/json');
+            res.json(profiles)
+        } else {
+            res.statusCode = 200;
+            res.setHeader('Content-Type', 'application/json');
+            res.json({profiles: [], err: "No Products Availaible"})
+        }
     }, (err) => next(err))
     .catch((err) => next(err));
 })
-.post( authenticate.verifyUser, (req, res, next) => {
+.post( authenticate.verifyUser, async (req, res, next) => {
     req.body.user = req.user._id
-
+    console.log("uploading to cloudinary")
+    await cloudinary.uploader.upload(req.body.logo, 
+        (error, result) => {
+            console.log(result, error)
+            req.body.logo = result.url;
+    })
+    
     ProductDetails.create(req.body)
     .then((profile) => {
         console.log('Profile Created ', profile);
