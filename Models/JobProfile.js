@@ -1,6 +1,8 @@
 const mongoose = require('mongoose');
 
 // work on using mongoose.populate to populate the user details here.
+require('mongoose-currency').loadType(mongoose);
+const Currency = mongoose.Types.Currency;
 
 const JobProfile = new mongoose.Schema({
 		user: {
@@ -57,8 +59,9 @@ const JobProfile = new mongoose.Schema({
 			required: false
 		},
 		offeringPrice: {
-			type: Number,
-			required: false
+			type: Currency,
+			required: false,
+			default: 1000,
 		},
 		profilePic: {
 			type: String,
