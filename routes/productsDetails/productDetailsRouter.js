@@ -55,7 +55,8 @@ productDetailsRouter.route('/')
         (error, result) => {
             console.log(result, error)
             req.body.logo = result.url;
-    })
+    }, (err) => next(err))
+    .catch((err) => next(err));
     
     ProductDetails.create(req.body)
     .then((profile) => {
