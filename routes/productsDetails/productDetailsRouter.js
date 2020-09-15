@@ -83,9 +83,9 @@ productDetailsRouter.route('/:productID')
     ProductDetails.findById(req.params.productID)
     .populate('comments.author')
     .populate('user')
-    .then((product)=> {
+    .then(async (product)=> {
         product.reputationPoint = 4 * product.comments.length + product.upvotes
-        product.save()
+        await product.save()
         res.statusCode = 200;
         res.setHeader('Content-Type', 'application/json');
         res.json(product)
@@ -100,9 +100,9 @@ productDetailsRouter.route('/:productID')
     ProductDetails.findByIdAndUpdate(req.params.productID, {
         $set: req.body
     }, { new: true})
-    .then((product) => {
+    .then(async (product) => {
         product.reputationPoint = 4 * product.comments.length + product.upvotes
-        product.save()
+        await product.save()
         res.statusCode = 200;
         res.setHeader('Content-Type', 'application/json');
         res.json(product)
@@ -139,13 +139,13 @@ productDetailsRouter.route('/:productID/comments')
         if(product != null){
             req.body.author = req.user._id; 
             product.comments.push(req.body);
-            product.save()
-            .then((product) => {
+            await product.save()
+            .then(async (product) => {
                 ProductDetails.findById(product._id)
                     .populate('comments.author')
-                    .then((product) => {
+                    .then(async(product) => {
                         product.reputationPoint = 4 * product.comments.length + product.upvotes
-                        product.save()
+                        await product.save()
                         User.findById(req.user._id)
                             .then(async (user) => {
                                 user.reputation = user.reputation + 4;
@@ -205,7 +205,7 @@ productDetailsRouter.route('/:productID/comments/:commentID')
 })
 .put( authenticate.verifyUser, (req, res, next) => {
     ProductDetails.findById(req.params.productID)
-        .then((product) => {
+        .then(async (product) => {
             // console.log(product)
             if(!product.comments.id(req.params.commentID).author.equals(req.user._id) ){
                 err = new Error(' You are not authorized to perform this operation!');
@@ -219,7 +219,7 @@ productDetailsRouter.route('/:productID/comments/:commentID')
                 if(req.body.comment){
                     product.comments.id(req.params.commentID).comment = req.body.comment;
                 }
-                product.save()
+                await product.save()
                     .then((product) => {
                         ProductDetails.findById(product._id)
                             .populate('comments.author')
@@ -254,12 +254,12 @@ productDetailsRouter.route('/:productID/comments/:commentID')
         else if(product != null && product.comments.id(req.params.commentID  )!= null ){
             product.comments.id(req.params.commentID ).remove();
             product.save()
-            .then((product) => {
+            .then(async (product) => {
                 ProductDetails.findById(product._id)
                     .populate('comments.author')
-                        .then((product) => {
+                        .then(async(product) => {
                             product.reputationPoint = 4 * product.comments.length + product.upvotes
-                            product.save()
+                            await product.save()
                             User.findById(req.user._id)
                             .then(async (user) => {
                                 user.reputation = Math.max(0, user.reputation - 4);
@@ -307,15 +307,13 @@ productDetailsRouter.route('/:productID/upvotes/add')
                 User.findById(req.user._id)
                 .then(async (user) => {
                     if(user){
-                        console.log(user)
-                        user.reputation = user.reputation|0 + 1;
+                        // console.log(user)
+                        user.reputation = user.reputation + 1;
                         await user.save();
-                    }else{
-                        res.statusCode = 500
-                        res.setHeader('Content-Type', 'application/json')
-                        res.json({success: false, message: "Databse Error"})
                     }
-                })
+                }, (err) => next(err))
+                .catch((err) => next(err));
+
                 res.statusCode = 200
                 res.setHeader('Content-Type', 'application/json')
                 res.json({success: true, message: "upvote added"})
