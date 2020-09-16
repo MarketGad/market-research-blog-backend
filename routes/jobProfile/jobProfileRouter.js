@@ -1,12 +1,10 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 
-
-
-
 var passport = require('passport');
 var authenticate = require('../../authenticate');
 var {cloudinary} = require('../../utils/cloudinary');
+
 // SCHEMA
 const JobProfile = require('../../Models/JobProfile');
 const User = require('../../Models/UserNewModel');

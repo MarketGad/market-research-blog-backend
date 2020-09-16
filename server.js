@@ -24,6 +24,9 @@ const subscribeRoute = require('./routes/subscriberoute');
 const JobProfilesRouter = require('./routes/jobProfile/jobProfileRouter')
 const ProductDetailsRouter = require('./routes/productsDetails/productDetailsRouter')
 const resetPasswordRoute = require('./routes/User/resetPasswordRoute');
+const UserRouter = require('./routes/User/UserRouter');
+const MessageRouter = require('./routes/Chats/messages');
+
 const { ETXTBSY } = require('constants');
 
 
@@ -82,6 +85,9 @@ app.use( (req, res, next) => {
 app.use("/api/user", signupRoute);
 app.use("/api/user", loginRoute);
 app.use("/api/user", logoutRoute);
+app.use("/api/user", UserRouter);
+
+app.use("/api/chat/messages", MessageRouter);
 
 app.use("/api/user", resetPasswordRoute);
 app.use("/api/user", googleLoginRoute);

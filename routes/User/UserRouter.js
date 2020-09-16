@@ -1,16 +1,38 @@
 const express = require('express');
 var passport = require('passport');
 
-const User = require('../../models/UserNewModel');
+const User = require('../../Models/UserNewModel');
 var authenticate = require('../../authenticate');
 
 
 const UserRouter = express.Router();
 
 UserRouter.route('/')
-.get((req, res, next) => {
-    res.statusCode = 403;
-    res.end('operation not supported yet');
+.get(authenticate.verifyUser, (req, res, next) => {
+    User.aggregate()
+        .match({ _id: { $not: { $eq: req.user._id } } })
+        .project({
+            __v: 0,
+        })
+        .exec((err, users) => {
+            if (err) {
+                console.log(err);
+                res.setHeader('Content-Type', 'application/json');
+                res.statusCode = 413
+                res.end(JSON.stringify({ message: 'Failure' }));
+                res.sendStatus(500);
+            } else {
+                res.statusCode = 200
+                res.setHeader('Content-Type', 'application/json');
+                res.json({
+                    status: "success",
+                    users: users
+                });
+            }
+        }, (err) => next(err))
+    .catch((err) => next(err));
+    // res.statusCode = 403;
+    // res.end('operation not supported yet');
 })
 .post((req, res, next) => {
     res.statusCode = 403;

@@ -27,3 +27,5 @@ MessageRouter.route('/')
     res.statusCode = 403;
     res.end('operation not supported yet');
 })
+
+module.exports = MessageRouter;
