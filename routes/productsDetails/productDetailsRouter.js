@@ -54,10 +54,10 @@ productDetailsRouter.route('/')
     await cloudinary.uploader.upload(req.body.logo, 
         {   
             folder: "Product_Profiles/logo/", 
-            public_id: "ProductProfile" 
+            public_id: req.body.name+" "+req.user._id 
         },
         (error, result) => {
-            console.log(result, error)
+            // console.log(result, error)
             req.body.logo = result.url;
     }, (err) => next(err))
     .catch((err) => next(err));

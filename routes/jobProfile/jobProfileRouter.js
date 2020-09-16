@@ -46,7 +46,7 @@ jobProfileRouter.route('/')
     await cloudinary.uploader.upload(req.body.profilePic, 
         {   
             folder: "Job_Profiles/profilePic/", 
-            public_id: "JobProfile" 
+            public_id: req.user._id
         },
         (error, result) => {
             // console.log(result, error)
