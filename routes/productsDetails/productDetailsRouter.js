@@ -52,6 +52,10 @@ productDetailsRouter.route('/')
     req.body.user = req.user._id
     console.log("uploading to cloudinary")
     await cloudinary.uploader.upload(req.body.logo, 
+        {   
+            folder: "Product_Profiles/logo/", 
+            public_id: "ProductProfile" 
+        },
         (error, result) => {
             console.log(result, error)
             req.body.logo = result.url;

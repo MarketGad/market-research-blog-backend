@@ -27,6 +27,13 @@ const resetPasswordRoute = require('./routes/User/resetPasswordRoute');
 const { ETXTBSY } = require('constants');
 
 
+const port = config.PORT;
+const server = app.listen(port, () => {
+  console.log(`Server running at http://localhost:${port}`);
+});
+
+const io = require('socket.io').listen(server);
+
 app.use(cors());
 app.use(function(req, res, next) {
   res.header("Access-Control-Allow-Origin", "*");
@@ -66,6 +73,11 @@ app.use(cookieParser());
 app.use(passport.initialize());
 // console.log("passport initialised")
 
+app.use( (req, res, next) => {
+  req.io = io;
+  next();
+});
+
 
 app.use("/api/user", signupRoute);
 app.use("/api/user", loginRoute);
@@ -88,6 +100,13 @@ app.use('/api/productdetails', ProductDetailsRouter)
 // });
 
 // // error handler
+
+
+
+
+
+
+
 app.use(function (err, req, res, next) {
   // set locals, only providing error in development
   res.locals.message = err.message;
@@ -97,8 +116,4 @@ app.use(function (err, req, res, next) {
   res.status(err.status || 500);
   res.setHeader('Content-Type', 'application/json');
   res.json({err: err.message});
-});
-const port = config.PORT;
-app.listen(port, () => {
-  console.log(`Server running at http://localhost:${port}`);
 });
