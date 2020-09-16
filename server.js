@@ -59,8 +59,8 @@ mongoose.connect(mongodburl, {
 
 
 
-app.use(bodyParser.json({limit: "512kb", extended: true}));
-app.use(bodyParser.urlencoded({limit: "512kb", extended: true}));
+app.use(bodyParser.json({limit: "2mb", extended: true}));
+app.use(bodyParser.urlencoded({limit: "2mb", extended: true}));
 
 app.use(express.json());
 app.use(express.urlencoded({extended: true }));

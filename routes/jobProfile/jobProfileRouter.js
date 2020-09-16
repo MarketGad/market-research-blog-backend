@@ -46,17 +46,18 @@ jobProfileRouter.route('/')
     await cloudinary.uploader.upload(req.body.profilePic, 
         {   
             folder: "Job_Profiles/profilePic/", 
-            public_id: req.user._id
+            public_id: req.user._id,
+            quality: "auto:low"
         },
         (error, result) => {
             // console.log(result, error)
-            req.body.profilePic = result.url;
+            req.body.profilePic = result.secure_url;
     }, (err) => next(err))
     .catch((err) => next(err));
 
     JobProfile.create(req.body)
     .then((profile) => {
-        // console.log('Profile Created ', profile);
+        console.log('Profile Created ');
         res.json(profile);
     }, (err) => next(err))
     .catch((err) => next(err));
