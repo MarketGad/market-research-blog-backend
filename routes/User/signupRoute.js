@@ -42,28 +42,10 @@ router.post('/signupUser', async (req, res, next) => {
     
     // console.log(req.body);
     req.body.reputation = 1;
-    User.register(new User(req.body), req.body.password,  (err, user)=>{
-        if(err) {
-			res.statusCode = 500;
-			res.setHeader('Content-Type', 'application/json');
-			res.json({err: err});
-		} else {
-            // user.lastname = req.body.lastname;
-            // user.firstname = req.body.firstname;
-            // user.phone = req.body.phone;
-            // user.email = req.body.email;
-
-			user.save((err, user) => {
-				if(err) {
-					res.statusCode = 500;
-					res.setHeader('Content-Type', 'application/json');
-					res.json({err: err});
-					return;
-				}
-				passport.authenticate('local')(req,res, async () => {
-                    console.log("before mail")
-                    console.log(req.body);
-                    otp = getRandomArbitrary(123456, 987654);
+    User.findOne({email: req.body.email}, async (err, user) => {
+        if(user){
+            if(user.isEmailVerified == false){
+                otp = getRandomArbitrary(123456, 987654);
                     // user.otp = otp;
                     // user.save();
 
@@ -102,10 +84,87 @@ router.post('/signupUser', async (req, res, next) => {
                         // smtpTransport.close();
                     })
 
-					res.statusCode = 200;
-					res.setHeader('Content-Type', 'application/json');
-					res.json({success: true, status: 'Registration Successful'});
-				});
+                    res.statusCode = 405;
+                    res.json({
+                        status: "unsuccessful", 
+                        err: "Email Already Registered but Not Verified",
+                        message: "OTP has been sent to your email"
+                    })
+    
+            } else {
+                res.statusCode = 405;
+                res.json({
+                    status: "unsuccessful", 
+                    err: "Email Already Registered and Verified"
+                })
+            }
+        } else {
+            User.register(new User(req.body), req.body.password,  (err, user)=>{
+                if(err) {
+                    res.statusCode = 500;
+                    res.setHeader('Content-Type', 'application/json');
+                    res.json({err: err});
+                } else {
+                    // user.lastname = req.body.lastname;
+                    // user.firstname = req.body.firstname;
+                    // user.phone = req.body.phone;
+                    // user.email = req.body.email;
+        
+                    user.save((err, user) => {
+                        if(err) {
+                            res.statusCode = 500;
+                            res.setHeader('Content-Type', 'application/json');
+                            res.json({err: err});
+                            return;
+                        }
+                        passport.authenticate('local')(req,res, async () => {
+                            console.log("before mail")
+                            console.log(req.body);
+                            otp = getRandomArbitrary(123456, 987654);
+                            // user.otp = otp;
+                            // user.save();
+        
+                            // const otpModelParameter = {
+                            //     email: req.body.email,
+                            //     otp: otp
+                            // }
+                            // OtpModel.create(otpModelParameter);
+        
+                            StoreOtpValue.set(req.body.email, otp);
+        
+                            var mailOptions = {
+                                from:`${"no-reply-otp-verification@marketgad.com"}`,
+                                to : `${req.body.email}`,
+                                subject : `Please don't reply to this mail`,
+                                html:   `<div >
+                                            <h3>
+                                                use this OTP to verify your MarketGad account.<br>
+                                            </h3>
+                                            <div style="padding: 10px;background-color: #dedede;text-align: center; font-size: 40px ">
+                                                    <p>${otp}</p>
+                                            </div>
+                                            <h3>Don't Reply</h3>
+                                        </div>`,
+                        
+                            }
+        
+                            await smtpTransport.sendMail(mailOptions, (error, response) => {
+                                if(error){
+                                    console.log("ERROR");
+                                    console.log(error);
+                                }else{
+                                    console.log(response);
+                                    // console.log("Message sent: " + response);
+                                }
+                                // smtpTransport.close();
+                            })
+        
+                            res.statusCode = 200;
+                            res.setHeader('Content-Type', 'application/json');
+                            res.json({success: true, status: 'Registration Successful'});
+                        });
+                    });
+                }
             });
         }
     });
