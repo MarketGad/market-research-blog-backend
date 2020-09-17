@@ -51,17 +51,19 @@ productDetailsRouter.route('/')
 .post( authenticate.verifyUser, async (req, res, next) => {
     req.body.user = req.user._id
     console.log("uploading to cloudinary")
-    await cloudinary.uploader.upload(req.body.logo, 
-        {   
-            folder: "Product_Profiles/logo/", 
-            public_id: req.body.name+" "+req.user._id,
-            quality: "auto:low"
-        },
-        (error, result) => {
-            // console.log(result, error)
-            req.body.logo = result.secure_url;
-    }, (err) => next(err))
-    .catch((err) => next(err));
+    if(req.body.logo){
+        await cloudinary.uploader.upload(req.body.logo, 
+            {   
+                folder: "Product_Profiles/logo/", 
+                public_id: req.body.name+" "+req.user._id,
+                quality: "auto:low"
+            },
+            (error, result) => {
+                // console.log(result, error)
+                req.body.logo = result.secure_url;
+        }, (err) => next(err))
+        .catch((err) => next(err));
+    }
     
     ProductDetails.create(req.body)
     .then((profile) => {
