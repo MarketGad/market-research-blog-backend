@@ -50,6 +50,7 @@ productDetailsRouter.route('/')
 })
 .post( authenticate.verifyUser, async (req, res, next) => {
     req.body.user = req.user._id
+    req.body.upvotesList = [req.user._id]
     console.log("uploading to cloudinary")
     if(req.body.logo){
         await cloudinary.uploader.upload(req.body.logo, 
@@ -64,7 +65,7 @@ productDetailsRouter.route('/')
         }, (err) => next(err))
         .catch((err) => next(err));
     }
-    
+    console.log("creating")
     ProductDetails.create(req.body)
     .then((profile) => {
         console.log('Profile Created ');
