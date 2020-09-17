@@ -41,17 +41,19 @@ jobProfileRouter.route('/')
     if(req.body.passionateAbout)req.body.passionateAbout = req.body.passionateAbout.split(',')
     if(req.body.location)req.body.location = req.body.location.split(',')
     
-    await cloudinary.uploader.upload(req.body.profilePic, 
-        {   
-            folder: "Job_Profiles/profilePic/", 
-            public_id: req.user._id,
-            quality: "auto:low"
-        },
-        (error, result) => {
-            // console.log(result, error)
-            req.body.profilePic = result.secure_url;
-    }, (err) => next(err))
-    .catch((err) => next(err));
+    if(req.body.profilePic){
+        await cloudinary.uploader.upload(req.body.profilePic, 
+            {   
+                folder: "Job_Profiles/profilePic/", 
+                public_id: req.user._id,
+                quality: "auto:low"
+            },
+            (error, result) => {
+                // console.log(result, error)
+                req.body.profilePic = result.secure_url;
+        }, (err) => next(err))
+        .catch((err) => next(err));
+    }
 
     JobProfile.create(req.body)
     .then((profile) => {
