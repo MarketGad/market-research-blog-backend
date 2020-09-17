@@ -60,7 +60,6 @@ const ProductDetails = new mongoose.Schema(
 		upvotesList: {
 			type: [mongoose.Schema.Types.ObjectId],
 			ref: 'NewUser',
-			unique: true
 		},
 
 		// reputation point = 4 * no of comments + 1 * upvotes
