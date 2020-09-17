@@ -11,8 +11,11 @@ UserRouter.route('/')
 .get(authenticate.verifyUser, (req, res, next) => {
     User.aggregate()
         .match({ _id: { $not: { $eq: req.user._id } } })
+        .match({ isEmailVerified: { $eq: true } })
         .project({
             __v: 0,
+            salt: 0,
+            hash:  0,
         })
         .exec((err, users) => {
             if (err) {
@@ -20,7 +23,6 @@ UserRouter.route('/')
                 res.setHeader('Content-Type', 'application/json');
                 res.statusCode = 413
                 res.end(JSON.stringify({ message: 'Failure' }));
-                res.sendStatus(500);
             } else {
                 res.statusCode = 200
                 res.setHeader('Content-Type', 'application/json');
@@ -29,8 +31,7 @@ UserRouter.route('/')
                     users: users
                 });
             }
-        }, (err) => next(err))
-    .catch((err) => next(err));
+        });
     // res.statusCode = 403;
     // res.end('operation not supported yet');
 })
