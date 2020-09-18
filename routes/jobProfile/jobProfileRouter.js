@@ -34,33 +34,44 @@ jobProfileRouter.route('/')
     .catch((err) => next(err));
 })
 .post( authenticate.verifyUser, async (req, res, next) => {
-    req.body.user = req.user._id
-    if(req.body.skills) req.body.skills = req.body.skills.split(',')
-    if(req.body.qualification) req.body.qualification = req.body.qualification.split(',')
-    if(req.body.experience)req.body.experience = req.body.experience.split(',')
-    if(req.body.passionateAbout)req.body.passionateAbout = req.body.passionateAbout.split(',')
-    if(req.body.location)req.body.location = req.body.location.split(',')
-    
-    if(req.body.profilePic){
-        await cloudinary.uploader.upload(req.body.profilePic, 
-            {   
-                folder: "Job_Profiles/profilePic/", 
-                public_id: req.user._id,
-                quality: "auto:low"
-            },
-            (error, result) => {
-                // console.log(result, error)
-                req.body.profilePic = result.secure_url;
-        }, (err) => next(err))
-        .catch((err) => next(err));
-    }
+    JobProfile.find({user: req.user._id})
+    .then(async (profile)=>{
+        if(profile.length != 0){
+            // console.log(profile)
+            res.statusCode = 410
+            res.json({status: "failure", message: "Your Job Profile already Exists"})
+            return;
+        }else{
+            req.body.user = req.user._id
+            if(req.body.skills) req.body.skills = req.body.skills.split(',')
+            if(req.body.qualification) req.body.qualification = req.body.qualification.split(',')
+            if(req.body.experience)req.body.experience = req.body.experience.split(',')
+            if(req.body.passionateAbout)req.body.passionateAbout = req.body.passionateAbout.split(',')
+            if(req.body.location)req.body.location = req.body.location.split(',')
+            
+            if(req.body.profilePic){
+                await cloudinary.uploader.upload(req.body.profilePic, 
+                    {   
+                        folder: "Job_Profiles/profilePic/", 
+                        public_id: req.user._id,
+                        quality: "auto:low"
+                    },
+                    (error, result) => {
+                        // console.log(result, error)
+                        req.body.profilePic = result.secure_url;
+                }, (err) => next(err))
+                .catch((err) => next(err));
+            }
 
-    JobProfile.create(req.body)
-    .then((profile) => {
-        console.log('Profile Created ');
-        res.json(profile);
-    }, (err) => next(err))
-    .catch((err) => next(err));
+            JobProfile.create(req.body)
+            .then((profile) => {
+                console.log('Profile Created ');
+                res.json(profile);
+            }, (err) => next(err))
+            .catch((err) => next(err));
+        }
+    })
+    
 })
 .put((req, res, next) => {
     res.statusCode = 403;

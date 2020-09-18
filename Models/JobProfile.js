@@ -7,7 +7,7 @@ const Currency = mongoose.Types.Currency;
 const JobProfile = new mongoose.Schema({
 		user: {
 			type: mongoose.Schema.Types.ObjectId,
-			ref: 'NewUser'
+			ref: 'NewUser',
 		},
 		isHired: {
 			type: Number,
