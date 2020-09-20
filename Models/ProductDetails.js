@@ -78,6 +78,10 @@ const ProductDetails = new mongoose.Schema(
 			required: false,
 			unique: true
 		},
+		tags: {
+			type: [String],
+			required: false,
+		},
 		// rating: {
 		//     type: Number,
 		//     min: 1,
