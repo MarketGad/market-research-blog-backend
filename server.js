@@ -26,6 +26,7 @@ const ProductDetailsRouter = require('./routes/productsDetails/productDetailsRou
 const resetPasswordRoute = require('./routes/User/resetPasswordRoute');
 const UserRouter = require('./routes/User/UserRouter');
 const MessageRouter = require('./routes/Chats/messages');
+const PaymentRouter = require('./routes/Payment/PaymentsRouter');
 
 const { ETXTBSY } = require('constants');
 
@@ -62,8 +63,8 @@ mongoose.connect(mongodburl, {
 
 
 
-app.use(bodyParser.json({limit: "2mb", extended: true}));
-app.use(bodyParser.urlencoded({limit: "2mb", extended: true}));
+app.use(bodyParser.json({limit: "512kb", extended: true}));
+app.use(bodyParser.urlencoded({limit: "512kb", extended: true}));
 
 app.use(express.json());
 app.use(express.urlencoded({extended: true }));
@@ -93,8 +94,11 @@ app.use("/api/user", resetPasswordRoute);
 app.use("/api/user", googleLoginRoute);
 app.use("/api", ideaSubmitroute);
 app.use("/api", subscribeRoute);
+
 app.use('/api/jobprofiles', JobProfilesRouter)
 app.use('/api/productdetails', ProductDetailsRouter)
+
+app.use("/api/payment", PaymentRouter);
 // app.use(express.static(path.join(__dirname, '../client/build')));
 
 
