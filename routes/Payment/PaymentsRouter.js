@@ -58,10 +58,11 @@ PaymentRouter.post('/verification', (req, res) => {
 PaymentRouter.post('/razorpay', authenticate.verifyUser, (req, res, next)=> {
 
     JobProfile.find({user: req.user._id})
-    .then(async (err, user) => {
+    .then(async (user, err) => {
         if(user){
+            // console.log(user[0])
             const payment_capture = 1;
-            const amount = user.offeringPrice;
+            const amount = user[0].offeringPrice;
             const currency = 'INR';
 
             const options = {
@@ -98,7 +99,7 @@ PaymentRouter.post('/razorpay', authenticate.verifyUser, (req, res, next)=> {
             }
         }else {
             res.statusCode = 404
-            res.json({status: "User Not Found"})
+            res.json({status: "User Not Found", err: err})
         }
     });
 
