@@ -23,3 +23,9 @@ api/jobprofiles
 api/jobprofiles/:jobId
 api/jobprofiles/:jobId/addrating
 </pre>
+
+# payment
+<pre>
+api/payment/razorpay/:jobId
+api/payment/verification
+</pre>
