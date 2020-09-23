@@ -21,6 +21,7 @@ api/productdetails/:productID/upvotes/add
 <pre>
 api/jobprofiles
 api/jobprofiles/:jobId
+api/jobprofiles/:jobId/hire
 api/jobprofiles/:jobId/addrating
 </pre>
 

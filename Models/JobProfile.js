@@ -8,6 +8,7 @@ const JobProfile = new mongoose.Schema({
 		user: {
 			type: mongoose.Schema.Types.ObjectId,
 			ref: 'NewUser',
+			unique: true
 		},
 		isHired: {
 			type: Number,

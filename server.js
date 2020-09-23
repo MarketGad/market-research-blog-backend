@@ -27,6 +27,7 @@ const resetPasswordRoute = require('./routes/User/resetPasswordRoute');
 const UserRouter = require('./routes/User/UserRouter');
 const MessageRouter = require('./routes/Chats/messages');
 const PaymentRouter = require('./routes/Payment/PaymentsRouter');
+const HireRouter = require('./routes/jobProfile/hiredRouter')
 
 const { ETXTBSY } = require('constants');
 
@@ -96,6 +97,7 @@ app.use("/api", ideaSubmitroute);
 app.use("/api", subscribeRoute);
 
 app.use('/api/jobprofiles', JobProfilesRouter)
+app.use('/api/jobprofiles/:jobId/hire', HireRouter)
 app.use('/api/productdetails', ProductDetailsRouter)
 
 app.use("/api/payment", PaymentRouter);
