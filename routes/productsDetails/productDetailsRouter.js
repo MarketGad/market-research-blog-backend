@@ -34,7 +34,7 @@ productDetailsRouter.route('/')
         
         // sort by reputation
         if(profiles){
-            profiles.sort(sortByProperty("reputationPoint"))
+            profiles.sort(sortByProperty("upvotes"))
             // sort the "product profiles" here based on reputation point
 
             res.statusCode = 200;
