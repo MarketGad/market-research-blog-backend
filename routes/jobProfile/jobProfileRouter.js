@@ -15,6 +15,7 @@ const jobProfileRouter = express.Router();
 jobProfileRouter.route('/')
 .get((req, res, next) => {
     JobProfile.find({})
+    // .limit(15)
     .populate('user')
     .then((profiles) => {
 
@@ -23,7 +24,6 @@ jobProfileRouter.route('/')
                return 1;  
             else if(a.user.reputation > b.user.reputation)  
                return -1;  
-        
             return 0;  
         })
 

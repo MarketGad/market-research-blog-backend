@@ -30,6 +30,7 @@ const PaymentRouter = require('./routes/Payment/PaymentsRouter');
 const HireRouter = require('./routes/jobProfile/hiredRouter')
 
 const { ETXTBSY } = require('constants');
+const HotProductsRouter = require('./routes/productsDetails/hotProductsRouter');
 
 
 const port = config.PORT;
@@ -98,7 +99,9 @@ app.use("/api", subscribeRoute);
 
 app.use('/api/jobprofiles', JobProfilesRouter)
 app.use('/api/jobprofiles/:jobId/hire', HireRouter)
+
 app.use('/api/productdetails', ProductDetailsRouter)
+app.use('/api/hotproducts', HotProductsRouter)
 
 app.use("/api/payment", PaymentRouter);
 // app.use(express.static(path.join(__dirname, '../client/build')));

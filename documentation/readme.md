@@ -15,13 +15,15 @@ api/productdetails/:productID
 api/productdetails/:productID/comments
 api/productdetails/:productID/comments/:commentID
 api/productdetails/:productID/upvotes/add
+api/hotproducts
+api/hotproducts/recent
 </pre>
 
 ## job profiles
 <pre>
 api/jobprofiles
 api/jobprofiles/:jobId
-api/jobprofiles/:jobId/hire
+api/jobprofiles/:jobId/hire 
 api/jobprofiles/:jobId/addrating
 </pre>
 

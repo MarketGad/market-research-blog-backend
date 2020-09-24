@@ -28,13 +28,14 @@ const productDetailsRouter = express.Router();
 productDetailsRouter.route('/')
 .get((req, res, next) => {
     ProductDetails.find({})
+    .limit(15)
+    .sort({upvotes: -1})
     .populate('comments.author')
     .populate('user')
     .then((profiles) => {
-        
         // sort by reputation
         if(profiles){
-            profiles.sort(sortByProperty("upvotes"))
+            // profiles.sort(sortByProperty("upvotes"))
             // sort the "product profiles" here based on reputation point
 
             res.statusCode = 200;
