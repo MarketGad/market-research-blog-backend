@@ -47,11 +47,7 @@ const PaymentSchema = new Schema({
         type: Number,
         required: false,
     },
-    created_at: {
-        type: Number,
-        required: false,
-    },
-    
-});
+
+},{ timestamps: true });
 
 module.exports = Message = mongoose.model('payments', PaymentSchema);

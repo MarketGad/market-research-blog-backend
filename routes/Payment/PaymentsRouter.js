@@ -38,6 +38,8 @@ PaymentRouter.post('/verification', (req, res) => {
             if(Order){
                 Order.amount_paid = req.body.payload.payment.entity.amount
                 Order.amount_due = Order.amount - Order.amount_paid
+                Order.email = req.body.payload.payment.entity.email
+                Order.attempts = Order.attempts + 1
                 await Order.save()
             }else {
                 res.statusCode = 404
