@@ -16,15 +16,15 @@ const PaymentSchema = new Schema({
         required: false,
     },
     amount: {
-        type: String,
+        type: Number,
         required: false,
     },
     amount_paid: {
-        type: String,
+        type: Number,
         required: false,
     },
     amount_due: {
-        type: String,
+        type: Number,
         required: false,
     },
     currency: {

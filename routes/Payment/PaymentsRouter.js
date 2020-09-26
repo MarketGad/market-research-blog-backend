@@ -28,28 +28,34 @@ PaymentRouter.post('/verification', (req, res) => {
 	shasum.update(JSON.stringify(req.body));
     const digest = shasum.digest('hex');
     
+    console.log(digest, req.headers['x-razorpay-signature']);
 
-    // JobProfile.find({user: req.user._id})
-    // .then(async (err, user) => {
-    //     if(user){
+    if (digest === req.headers['x-razorpay-signature']) {
+        console.log('request is legit');
+        // process it
+        Payment.find({order_id: req.body.payload.payment.entity.order_id})
+        .then(async (err, Order) => {
+            if(Order){
+                Order.amount_paid = req.body.payload.payment.entity.amount
+                Order.amount_due = Order.amount - Order.amount_paid
+                await Order.save()
+            }else {
+                res.statusCode = 404
+                res.json({status: "Not Ok"})
+            }
+        });
+        
+        // require('fs').writeFileSync('payment1.json', JSON.stringify(req.body, null, 4));
+    } else {
+        // pass it
+    }
 
-    //         if (digest === req.headers['x-razorpay-signature']) {
-    //             console.log('request is legit');
-    //             // process it
-    //             require('fs').writeFileSync('payment1.json', JSON.stringify(req.body, null, 4));
-    //         } else {
-    //             // pass it
-    //         }
-    //         res.json({ status: 'ok' }); //required for razorpay
+    
 
-    //     }else {
-    //         res.statusCode = 404
-    //         res.json({status: "User Not Found"})
-    //     }
-    // });
+    // required by razorpay
+    res.json({ status: 'ok' });
 	
 
-	console.log(digest, req.headers['x-razorpay-signature']);
 
 	
 });
