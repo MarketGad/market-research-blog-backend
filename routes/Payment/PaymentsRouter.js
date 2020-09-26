@@ -29,24 +29,24 @@ PaymentRouter.post('/verification', (req, res) => {
     const digest = shasum.digest('hex');
     
 
-    JobProfile.find({user: req.user._id})
-    .then(async (err, user) => {
-        if(user){
+    // JobProfile.find({user: req.user._id})
+    // .then(async (err, user) => {
+    //     if(user){
 
-            if (digest === req.headers['x-razorpay-signature']) {
-                console.log('request is legit');
-                // process it
-                require('fs').writeFileSync('payment1.json', JSON.stringify(req.body, null, 4));
-            } else {
-                // pass it
-            }
-            res.json({ status: 'ok' }); //required for razorpay
+    //         if (digest === req.headers['x-razorpay-signature']) {
+    //             console.log('request is legit');
+    //             // process it
+    //             require('fs').writeFileSync('payment1.json', JSON.stringify(req.body, null, 4));
+    //         } else {
+    //             // pass it
+    //         }
+    //         res.json({ status: 'ok' }); //required for razorpay
 
-        }else {
-            res.statusCode = 404
-            res.json({status: "User Not Found"})
-        }
-    });
+    //     }else {
+    //         res.statusCode = 404
+    //         res.json({status: "User Not Found"})
+    //     }
+    // });
 	
 
 	console.log(digest, req.headers['x-razorpay-signature']);

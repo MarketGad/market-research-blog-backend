@@ -98,7 +98,7 @@ app.use("/api", ideaSubmitroute);
 app.use("/api", subscribeRoute);
 
 app.use('/api/jobprofiles', JobProfilesRouter)
-app.use('/api/jobprofiles/:jobId/hire', HireRouter)
+app.use('/api/jobprofiles/hire/:jobId', HireRouter)
 
 app.use('/api/productdetails', ProductDetailsRouter)
 app.use('/api/hotproducts', HotProductsRouter)

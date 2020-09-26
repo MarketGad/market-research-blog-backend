@@ -3,6 +3,10 @@ const Schema = mongoose.Schema;
 
 // Create Schema for NewUser
 const PaymentSchema = new Schema({
+    email:{
+        type: String,
+        required: false,
+    },
     id: {
         type: String,
         required: false,

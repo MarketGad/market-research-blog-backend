@@ -23,7 +23,7 @@ api/hotproducts/recent
 <pre>
 api/jobprofiles
 api/jobprofiles/:jobId
-api/jobprofiles/:jobId/hire 
+api/jobprofiles/hire/:jobId 
 api/jobprofiles/:jobId/addrating
 </pre>
 
