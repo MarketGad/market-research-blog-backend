@@ -18,7 +18,7 @@ const razorpay = new Razorpay({
 });
 
 //  CALLBACK ENDPOINT
-PaymentRouter.post('/verification', (req, res) => {
+PaymentRouter.post('/verification', (req, res, next) => {
 	// do a validation
 	const secret = config.RAZORPAY_SECRET_HASH;
 
@@ -34,13 +34,15 @@ PaymentRouter.post('/verification', (req, res) => {
         console.log('request is legit');
         // process it
         Payment.find({order_id: req.body.payload.payment.entity.order_id})
-        .then(async (Order) => {
+        .then(async (err, Order) => {
             if(Order){
                 Order.amount_paid = req.body.payload.payment.entity.amount
                 Order.amount_due = Order.amount - Order.amount_paid
                 Order.email = req.body.payload.payment.entity.email
                 Order.attempts = Order.attempts + 1
                 await Order.save()
+                res.statusCode = 200
+                res.json({ status: 'ok' });
             }else {
                 res.statusCode = 404
                 res.json({status: "Not Ok"})
@@ -55,14 +57,6 @@ PaymentRouter.post('/verification', (req, res) => {
         res.json({status: "Not Legit"})
     }
 
-    
-
-    // required by razorpay
-    res.json({ status: 'ok' });
-	
-
-
-	
 });
 
 
@@ -92,19 +86,16 @@ PaymentRouter.post('/razorpay/:jobId', authenticate.verifyUser, (req, res, next)
             Payment.create(rpay_response)
             .then((profile) => {
                 console.log('Payment Request Created ');
-                res.json(profile);
+                res.statusCode = 200
+                res.json({
+                    id: rpay_response.id,
+                    currency: rpay_response.currency,
+                    amount: rpay_response.amount,
+                    profile: profile
+                });
+                
             }, (err) => next(err))
             .catch((err) => next(err));
-
-            // response
-
-            res.statusCode = 200
-            res.json({
-                id: rpay_response.id,
-                currency: rpay_response.currency,
-                amount: rpay_response.amount
-            });
-
 
         }else {
             res.statusCode = 404
