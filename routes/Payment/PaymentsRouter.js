@@ -36,12 +36,13 @@ PaymentRouter.post('/verification', (req, res, next) => {
         // console.log(req.body.payload.payment.entity)
         Payment.find({id: req.body.payload.payment.entity.order_id})
         .then(async (Order) => {
-            console.log(Order)
+            console.log(Order[0])
             if(Order){
                 Order[0].amount_paid = req.body.payload.payment.entity.amount
-                Order[0].amount_due = Order[0].amount - Order[0].amount_paid
+                Order[0].amount_due = Order[0].amount - req.body.payload.payment.entity.amount
                 Order[0].email = req.body.payload.payment.entity.email
                 Order[0].attempts = Order[0].attempts + 1
+                console.log(Order[0])
                 await Order.save()
                 console.log("Order Placed Success")
                 console.log(Order)
