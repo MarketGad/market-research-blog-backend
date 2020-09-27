@@ -22,7 +22,7 @@ PaymentRouter.post('/verification', (req, res, next) => {
 	// do a validation
 	const secret = config.RAZORPAY_SECRET_HASH;
 
-	console.log(req.body);
+	// console.log(req.body);
     const crypto = require('crypto');
 	const shasum = crypto.createHmac('sha256', secret);
 	shasum.update(JSON.stringify(req.body));
@@ -36,16 +36,16 @@ PaymentRouter.post('/verification', (req, res, next) => {
         // console.log(req.body.payload.payment.entity)
         Payment.find({id: req.body.payload.payment.entity.order_id})
         .then(async (Order) => {
-            console.log(" in orders ")
-            if(Order){
+            // console.log(" in orders ")
+            if(Order.length > 0){
                 Order[0].amount_paid = req.body.payload.payment.entity.amount
                 Order[0].amount_due = Order[0].amount - req.body.payload.payment.entity.amount
                 Order[0].email = req.body.payload.payment.entity.email
                 Order[0].attempts = Order[0].attempts + 1
-                console.log(Order[0])
+                // console.log(Order[0])
                 await Order[0].save()
                 console.log("Order Placed Success")
-                console.log(Order)
+                // console.log(Order)
                 res.statusCode = 200
                 res.json({ status: 'ok' });
             }else {
@@ -84,7 +84,7 @@ PaymentRouter.post('/razorpay/:jobId', authenticate.verifyUser, (req, res, next)
 
 
             const rpay_response = await razorpay.orders.create(options);
-            console.log(rpay_response);
+            // console.log(rpay_response);
 
             // Payment req. created
 

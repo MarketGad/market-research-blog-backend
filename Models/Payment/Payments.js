@@ -21,6 +21,7 @@ const PaymentSchema = new Schema({
     },
     amount_paid: {
         type: Number,
+        default: 0,
         required: false,
     },
     amount_due: {
