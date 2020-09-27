@@ -34,7 +34,7 @@ PaymentRouter.post('/verification', (req, res, next) => {
         console.log('request is legit');
         // process it
         Payment.find({order_id: req.body.payload.payment.entity.order_id})
-        .then(async (err, Order) => {
+        .then(async (Order) => {
             if(Order){
                 Order.amount_paid = req.body.payload.payment.entity.amount
                 Order.amount_due = Order.amount - Order.amount_paid
