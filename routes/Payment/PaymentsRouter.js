@@ -33,7 +33,7 @@ PaymentRouter.post('/verification', (req, res, next) => {
     if (digest === req.headers['x-razorpay-signature']) {
         console.log('request is legit');
         // process it
-        console.log(req.body)
+        console.log(req.body.payload.payment.entity)
         Payment.find({order_id: req.body.payload.payment.entity.order_id})
         .then(async (Order) => {
             console.log(Order)
@@ -44,7 +44,6 @@ PaymentRouter.post('/verification', (req, res, next) => {
                 Order.attempts = Order.attempts + 1
                 await Order.save()
                 console.log("Order Placed Success")
-
                 console.log(Order)
                 res.statusCode = 200
                 res.json({ status: 'ok' });
