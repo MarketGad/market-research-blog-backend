@@ -45,11 +45,14 @@ PaymentRouter.post('/verification', (req, res) => {
                 res.statusCode = 404
                 res.json({status: "Not Ok"})
             }
-        });
+        }, (err) => next(err))
+        .catch((err) => next(err));
         
         // require('fs').writeFileSync('payment1.json', JSON.stringify(req.body, null, 4));
     } else {
         // pass it
+        res.statusCode = 404
+        res.json({status: "Not Legit"})
     }
 
     
@@ -80,31 +83,29 @@ PaymentRouter.post('/razorpay/:jobId', authenticate.verifyUser, (req, res, next)
                 payment_capture
             };
 
-            try {
-                const rpay_response = await razorpay.orders.create(options);
-                console.log(rpay_response);
 
-                // Payment req. created
+            const rpay_response = await razorpay.orders.create(options);
+            console.log(rpay_response);
 
-                Payment.create(rpay_response)
-                .then((profile) => {
-                    console.log('Payment Request Created ');
-                    res.json(profile);
-                }, (err) => next(err))
-                .catch((err) => next(err));
+            // Payment req. created
 
-                // response
+            Payment.create(rpay_response)
+            .then((profile) => {
+                console.log('Payment Request Created ');
+                res.json(profile);
+            }, (err) => next(err))
+            .catch((err) => next(err));
 
-                res.statusCode = 200
-                res.json({
-                    id: rpay_response.id,
-                    currency: rpay_response.currency,
-                    amount: rpay_response.amount
-                });
+            // response
 
-            } catch (error) {
-                console.log(error);
-            }
+            res.statusCode = 200
+            res.json({
+                id: rpay_response.id,
+                currency: rpay_response.currency,
+                amount: rpay_response.amount
+            });
+
+
         }else {
             res.statusCode = 404
             res.json({status: "User Not Found", err: err})
