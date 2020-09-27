@@ -35,10 +35,6 @@ const PaymentSchema = new Schema({
         type: String,
         required: false,
     },
-    order_id: {
-        type: String,
-        required: false,
-    },
     status: {
         type: String,
         required: false,

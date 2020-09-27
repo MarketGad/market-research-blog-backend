@@ -34,7 +34,7 @@ PaymentRouter.post('/verification', (req, res, next) => {
         console.log('request is legit');
         // process it
         console.log(req.body.payload.payment.entity)
-        Payment.find({order_id: req.body.payload.payment.entity.order_id})
+        Payment.find({id: req.body.payload.payment.entity.order_id})
         .then(async (Order) => {
             console.log(Order)
             if(Order){
