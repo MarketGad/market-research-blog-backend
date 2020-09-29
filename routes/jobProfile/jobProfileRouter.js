@@ -66,6 +66,7 @@ jobProfileRouter.route('/')
             JobProfile.create(req.body)
             .then((profile) => {
                 console.log('Profile Created ');
+                res.statusCode = 200
                 res.json(profile);
             }, (err) => next(err))
             .catch((err) => next(err));

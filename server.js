@@ -14,10 +14,11 @@ var authenticate = require('./authenticate');
 
 
 // Routes
-const googleLoginRoute = require('./routes/googleloginroute');
+// const googleLoginRoute = require('./routes/googleloginroute');
 const signupRoute = require('./routes/User/signupRoute');
 const loginRoute = require('./routes/User/loginRoute');
 const logoutRoute = require('./routes/User/logoutRoute');
+const GoogleLoginRoute = require('./routes/User/GoogleLogin');
 
 const ideaSubmitroute = require('./routes/ideasubmitroute');
 const subscribeRoute = require('./routes/subscriberoute');
@@ -93,7 +94,7 @@ app.use("/api/user", UserRouter);
 app.use("/api/chat/messages", MessageRouter);
 
 app.use("/api/user", resetPasswordRoute);
-app.use("/api/user", googleLoginRoute);
+app.use("/api/user", GoogleLoginRoute);
 app.use("/api", ideaSubmitroute);
 app.use("/api", subscribeRoute);
 
