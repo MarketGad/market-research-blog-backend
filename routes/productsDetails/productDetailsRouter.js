@@ -28,7 +28,6 @@ const productDetailsRouter = express.Router();
 productDetailsRouter.route('/')
 .get((req, res, next) => {
     ProductDetails.find({})
-    .limit(15)
     .sort({upvotes: -1})
     .populate('comments.author')
     .populate('user')
