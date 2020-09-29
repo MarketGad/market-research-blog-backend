@@ -37,7 +37,7 @@ productDetailsRouter.route('/')
         if(profiles){
             // profiles.sort(sortByProperty("upvotes"))
             // sort the "product profiles" here based on reputation point
-            shuffle(profiles)
+            // shuffle(profiles)
             res.statusCode = 200;
             res.setHeader('Content-Type', 'application/json');
             res.json(profiles)
