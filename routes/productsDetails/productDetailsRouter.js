@@ -6,6 +6,7 @@ var passport = require('passport');
 
 var authenticate = require('../../authenticate');
 const config = require('../../config');
+const shuffle = require('../../utils/shuffle')
 // SCHEMA
 const User = require('../../Models/UserNewModel');
 const ProductDetails = require('../../Models/ProductDetails');
@@ -36,7 +37,7 @@ productDetailsRouter.route('/')
         if(profiles){
             // profiles.sort(sortByProperty("upvotes"))
             // sort the "product profiles" here based on reputation point
-
+            shuffle(profiles)
             res.statusCode = 200;
             res.setHeader('Content-Type', 'application/json');
             res.json(profiles)
