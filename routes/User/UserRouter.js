@@ -48,4 +48,37 @@ UserRouter.route('/')
     res.end('operation not supported yet');
 })
 
+UserRouter.route('/:userId')
+.get(authenticate.verifyUser, (req, res, next) => {
+    User.findById(req.params.userId)
+        .exec((err, user) => {
+            if (err) {
+                res.setHeader('Content-Type', 'application/json');
+                res.statusCode = 413
+                res.end(JSON.stringify({ message: 'Failure' }));
+            } else {
+                res.statusCode = 200
+                res.setHeader('Content-Type', 'application/json');
+                res.json({
+                    status: "success",
+                    user: user
+                });
+            }
+        });
+    // res.statusCode = 403;
+    // res.end('operation not supported yet');
+})
+.post((req, res, next) => {
+    res.statusCode = 403;
+    res.end('operation not supported yet');
+})
+.put((req, res, next) => {
+    res.statusCode = 403;
+    res.end('operation not supported yet');
+})
+.delete((req, res, next) => {
+    res.statusCode = 403;
+    res.end('operation not supported yet');
+})
+
 module.exports = UserRouter;

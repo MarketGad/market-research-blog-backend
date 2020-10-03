@@ -7,6 +7,8 @@ api/user/verifyotp
 api/user/loginuser
 api/user/resetpassword
 api/user/googlelogin
+api/user/
+api/user/:userId
 </pre>
 
 ## product details
