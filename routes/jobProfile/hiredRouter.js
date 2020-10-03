@@ -15,7 +15,7 @@ const config = require('../../config')
 
 
 //  CALLBACK ENDPOINT
-HireRouter.post('/', authenticate.verifyUser,  (req, res) => {
+HireRouter.post('/:jobId', authenticate.verifyUser,  (req, res) => {
 
     JobProfile.findById(req.params.jobId)
     .then(async (profile) => {

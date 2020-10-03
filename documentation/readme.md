@@ -6,6 +6,7 @@ api/user/sendotp
 api/user/verifyotp
 api/user/loginuser
 api/user/resetpassword
+api/user/googlelogin
 </pre>
 
 ## product details
