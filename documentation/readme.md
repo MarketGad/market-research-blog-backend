@@ -13,13 +13,13 @@ api/user/profile
 
 ## product details
 <pre>
-api/productdetails/
-api/productdetails/:productID
-api/productdetails/:productID/comments
-api/productdetails/:productID/comments/:commentID
-api/productdetails/:productID/upvotes/add
-api/hotproducts
-api/hotproducts/recent
+api/productdetails/ [GET, POST]
+api/productdetails/:productID [PUT, GET]
+api/productdetails/:productID/comments [GET, POST]
+api/productdetails/:productID/comments/:commentID [GET, PUT]
+api/productdetails/:productID/upvotes/add [POST]
+api/hotproducts [GET]
+api/hotproducts/recent [GET]
 </pre>
 
 ## job profiles
@@ -28,6 +28,8 @@ api/jobprofiles
 api/jobprofiles/:jobId
 api/jobprofiles/hire/:jobId 
 api/jobprofiles/:jobId/addrating
+api/jobs [POST]
+api/jobs/:jobType [GET]
 </pre>
 
 # payment
