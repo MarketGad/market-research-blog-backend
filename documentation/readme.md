@@ -8,7 +8,7 @@ api/user/loginuser
 api/user/resetpassword
 api/user/googlelogin
 api/user/
-api/user/:userId
+api/user/profile
 </pre>
 
 ## product details

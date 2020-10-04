@@ -48,9 +48,9 @@ UserRouter.route('/')
     res.end('operation not supported yet');
 })
 
-UserRouter.route('/:userId')
+UserRouter.route('/profile')
 .get(authenticate.verifyUser, (req, res, next) => {
-    User.findById(req.params.userId)
+    User.findById(req.user._id)
         .exec((err, user) => {
             if (err) {
                 res.setHeader('Content-Type', 'application/json');
