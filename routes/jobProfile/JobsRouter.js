@@ -1,0 +1,77 @@
+const express = require('express');
+const bodyParser = require('body-parser');
+
+var passport = require('passport');
+var authenticate = require('../../authenticate');
+var {cloudinary} = require('../../utils/cloudinary');
+
+// SCHEMA
+const JobProfile = require('../../Models/JobProfile');
+const User = require('../../Models/UserNewModel');
+const Jobs = require('../../Models/Jobs');
+
+const JobsRouter = express.Router();
+
+JobsRouter.route('/')
+.get((req, res, next) => {
+    res.statusCode = 403;
+    res.end('operation not supported yet');
+})
+.post(authenticate.verifyUser, async (req, res, next) => {
+
+    if(req.body.profilePic){
+        await cloudinary.uploader.upload(req.body.logo, 
+            {   
+                folder: "Company/Logo/", 
+                public_id: req.user._id,
+                quality: "auto:low"
+            },
+            (error, result) => {
+                // console.log(result, error)
+                req.body.logo = result.secure_url;
+        }, (err) => next(err))
+        .catch((err) => next(err));
+    }
+
+    Jobs.create(req.body)
+    .then((job) => {
+        console.log('Job Added');
+        res.statusCode = 200;
+        res.json(job);
+    }, (err) => next(err))
+    .catch((err) => next(err));
+})
+.put((req, res, next) => {
+    res.statusCode = 403;
+    res.end('operation not supported yet');
+})
+.delete((req, res, next) => {
+    res.statusCode = 403;
+    res.end('operation not supported yet');
+})
+
+
+JobsRouter.route('/:jobType')
+.get(authenticate.verifyUser, (req, res, next) => {
+    Jobs.find({ type: req.params.jobType})
+    .then((jobs) => {
+        res.statusCode = 200;
+        res.setHeader('Content-Type', 'application/json');
+        res.json(jobs)
+    }, (err) => next(err))
+    .catch((err) => next(err));
+})
+.post((req, res, next) => {
+    res.statusCode = 403;
+    res.end('operation not supported yet');
+})
+.put((req, res, next) => {
+    res.statusCode = 403;
+    res.end('operation not supported yet');
+})
+.delete((req, res, next) => {
+    res.statusCode = 403;
+    res.end('operation not supported yet');
+})
+
+module.exports = JobsRouter;

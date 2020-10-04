@@ -29,6 +29,7 @@ const UserRouter = require('./routes/User/UserRouter');
 const MessageRouter = require('./routes/Chats/messages');
 const PaymentRouter = require('./routes/Payment/PaymentsRouter');
 const HireRouter = require('./routes/jobProfile/hiredRouter')
+const JobsRouter = require('./routes/jobProfile/JobsRouter');
 
 const { ETXTBSY } = require('constants');
 const HotProductsRouter = require('./routes/productsDetails/hotProductsRouter');
@@ -100,6 +101,7 @@ app.use("/api", subscribeRoute);
 
 app.use('/api/jobprofiles', JobProfilesRouter)
 app.use('/api/jobprofiles/hire/', HireRouter)
+app.use('/api/jobs', JobsRouter)
 
 app.use('/api/productdetails', ProductDetailsRouter)
 app.use('/api/hotproducts', HotProductsRouter)
