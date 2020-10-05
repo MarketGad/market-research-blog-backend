@@ -30,7 +30,7 @@ opts.secretOrKey = config.JWT_SIGNIN_KEY;
 
 exports.jwtPassport = passport.use(new JwtStrategy(opts,
     (jwt_payload, done) => {
-        console.log(jwt_payload)
+        // console.log(jwt_payload)
         User.findOne({_id: jwt_payload._id}, (err, user) => {
             if (err) {
                 console.log(err)

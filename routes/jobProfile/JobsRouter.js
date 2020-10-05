@@ -19,7 +19,7 @@ JobsRouter.route('/')
 })
 .post(authenticate.verifyUser, async (req, res, next) => {
 
-    if(req.body.profilePic){
+    if(req.body.logo){
         await cloudinary.uploader.upload(req.body.logo, 
             {   
                 folder: "Company/Logo/", 
