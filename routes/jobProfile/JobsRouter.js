@@ -52,7 +52,7 @@ JobsRouter.route('/')
 
 
 JobsRouter.route('/:jobType')
-.get(authenticate.verifyUser, (req, res, next) => {
+.get((req, res, next) => {
     Jobs.find({ type: req.params.jobType})
     .then((jobs) => {
         res.statusCode = 200;
