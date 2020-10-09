@@ -11,6 +11,7 @@ const PostsRouter = express.Router();
 PostsRouter.route('/')
 .get((req, res, next) => {
     ClubPosts.aggregate()
+    .populate('user')
     .exec((err, posts) => {
         if(posts){
             res.statusCode = 200
