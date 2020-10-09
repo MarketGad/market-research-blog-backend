@@ -34,14 +34,16 @@ jobProfileRouter.route('/')
     .catch((err) => next(err));
 })
 .post( authenticate.verifyUser, async (req, res, next) => {
-    JobProfile.find({user: req.user._id})
-    .then(async (profile)=>{
-        if(profile.length != 0){
-            // console.log(profile)
+    User.findById({user: req.user._id})
+    .then(async (user)=>{
+        if(user.isJobProfileCreated == true){
+            // console.log(user)
             res.statusCode = 410
             res.json({status: "failure", message: "Your Job Profile already Exists"})
             return;
         }else{
+            user.isJobProfileCreated = true;
+            user.save();
             req.body.user = req.user._id
             if(req.body.skills) req.body.skills = req.body.skills.split(',')
             if(req.body.qualification) req.body.qualification = req.body.qualification.split(',')
@@ -113,7 +115,7 @@ jobProfileRouter.route('/:jobId')
     .catch((err) => next(err));
 })
 .delete( authenticate.verifyUser, (req, res, next) => {
-    JobProfile.findByIdAndRemove(req.params.jobId)
+    JobProfile.findOneAndRemove({user: req.user._id})
     .then((resp) => {
         res.statusCode = 200;
         res.setHeader('Content-Type', 'application/json');
