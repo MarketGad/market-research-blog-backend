@@ -1,5 +1,5 @@
 # REST API End-points  List
-## user
+## User
 <pre>
 api/user/signupuser
 api/user/sendotp
@@ -11,7 +11,7 @@ api/user/ [ GET ]
 api/user/profile [ GET, PUT ]
 </pre>
 
-## product details
+## Product Details
 <pre>
 api/productdetails/ [GET, POST]
 api/productdetails/:productID [PUT, GET]
@@ -22,7 +22,7 @@ api/hotproducts [GET]
 api/hotproducts/recent [GET]
 </pre>
 
-## job profiles
+## Job Profiles
 <pre>
 api/jobprofiles
 api/jobprofiles/:jobId
@@ -32,8 +32,13 @@ api/jobs [POST]
 api/jobs/:jobType [GET]
 </pre>
 
-# payment
+## Payment
 <pre>
 api/payment/razorpay/:jobId
 api/payment/verification
+</pre>
+
+## Disrupter's Club
+<pre>
+/api/disrupterclub/posts [GET ,POST]
 </pre>
