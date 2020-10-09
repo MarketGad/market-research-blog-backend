@@ -30,9 +30,10 @@ const MessageRouter = require('./routes/Chats/messages');
 const PaymentRouter = require('./routes/Payment/PaymentsRouter');
 const HireRouter = require('./routes/jobProfile/hiredRouter')
 const JobsRouter = require('./routes/jobProfile/JobsRouter');
+const ClubPostsRouter = require('./routes/DisrupterClub/PostsRouter');
+const HotProductsRouter = require('./routes/productsDetails/hotProductsRouter');
 
 const { ETXTBSY } = require('constants');
-const HotProductsRouter = require('./routes/productsDetails/hotProductsRouter');
 
 
 const port = config.PORT;
@@ -106,6 +107,8 @@ app.use('/api/productdetails', ProductDetailsRouter)
 app.use('/api/hotproducts', HotProductsRouter)
 
 app.use("/api/payment", PaymentRouter);
+
+app.use("/api/disrupterclub/posts", ClubPostsRouter);
 // app.use(express.static(path.join(__dirname, '../client/build')));
 
 

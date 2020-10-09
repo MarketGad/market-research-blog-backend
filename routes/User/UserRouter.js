@@ -7,6 +7,8 @@ var authenticate = require('../../authenticate');
 
 const UserRouter = express.Router();
 
+
+// To be used for chat purposes
 UserRouter.route('/')
 .get(authenticate.verifyUser, (req, res, next) => {
     User.aggregate()
@@ -31,7 +33,8 @@ UserRouter.route('/')
                     users: users
                 });
             }
-        });
+        }, (err) => next(err))
+        .catch((err) => next(err));
     // res.statusCode = 403;
     // res.end('operation not supported yet');
 })
@@ -64,7 +67,8 @@ UserRouter.route('/profile')
                     user: user
                 });
             }
-        });
+        }, (err) => next(err))
+        .catch((err) => next(err));
     // res.statusCode = 403;
     // res.end('operation not supported yet');
 })
