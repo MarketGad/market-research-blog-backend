@@ -20,7 +20,7 @@ const loginRoute = require('./routes/User/loginRoute');
 const logoutRoute = require('./routes/User/logoutRoute');
 const GoogleLoginRoute = require('./routes/User/GoogleLogin');
 
-const ideaSubmitroute = require('./routes/ideasubmitroute');
+// const ideaSubmitroute = require('./routes/ideasubmitroute');
 const subscribeRoute = require('./routes/subscriberoute');
 const JobProfilesRouter = require('./routes/jobProfile/jobProfileRouter')
 const ProductDetailsRouter = require('./routes/productsDetails/productDetailsRouter')
@@ -96,7 +96,6 @@ app.use("/api/chat/messages", MessageRouter);
 
 app.use("/api/user", resetPasswordRoute);
 app.use("/api/user", GoogleLoginRoute);
-app.use("/api", ideaSubmitroute);
 app.use("/api", subscribeRoute);
 
 app.use('/api/jobprofiles', JobProfilesRouter)

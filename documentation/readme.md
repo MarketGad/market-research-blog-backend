@@ -6,9 +6,9 @@ api/user/sendotp
 api/user/verifyotp
 api/user/loginuser
 api/user/resetpassword
-api/user/googlelogin
-api/user/
-api/user/profile
+api/user/googlelogin [POST]
+api/user/ [ GET ]
+api/user/profile [ GET, PUT ]
 </pre>
 
 ## product details

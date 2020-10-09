@@ -72,9 +72,16 @@ UserRouter.route('/profile')
     res.statusCode = 403;
     res.end('operation not supported yet');
 })
-.put((req, res, next) => {
-    res.statusCode = 403;
-    res.end('operation not supported yet');
+.put(authenticate.verifyUser, (req, res, next) => {
+    User.findByIdAndUpdate(req.user._id, {
+        $set: req.body
+    }, { new: true})
+    .then((user) => {
+        res.statusCode = 200;
+        res.setHeader('Content-Type', 'application/json');
+        res.json(user)
+    }, (err) => next(err))
+    .catch((err) => next(err));
 })
 .delete((req, res, next) => {
     res.statusCode = 403;

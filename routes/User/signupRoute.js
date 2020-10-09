@@ -41,7 +41,7 @@ router.post('/signupUser', async (req, res, next) => {
     // }
     
     // console.log(req.body);
-    req.body.reputation = 1;
+    req.body.reputation = 10;
     User.findOne({email: req.body.email}, async (err, user) => {
         if(user){
             if(user.isEmailVerified == false){
