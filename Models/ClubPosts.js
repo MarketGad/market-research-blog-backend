@@ -3,7 +3,7 @@ const mongoose = require('mongoose');
 const CommentSchema = new mongoose.Schema({
 		comment: {
 			type: String,
-			required: false
+			required: true
 		},
 		author: {
 			type: mongoose.Schema.Types.ObjectId,
@@ -21,11 +21,11 @@ const ClubPosts = new mongoose.Schema({
 		},
 		title: {
 			type: String,
-			required: false
+			required: true
 		},
 		description: {
 			type: String,
-			required: false
+			required: true
 		},
 		upvotes: {
 			type: [mongoose.Schema.Types.ObjectId],
@@ -33,7 +33,7 @@ const ClubPosts = new mongoose.Schema({
 		},
 		hashtag: {
 			type: String,
-			required: false,
+			required: true,
 		},
 		link: {
 			type: String,
