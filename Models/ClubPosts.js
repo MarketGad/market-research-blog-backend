@@ -28,20 +28,17 @@ const ClubPosts = new mongoose.Schema({
 			required: false
 		},
 		upvotes: {
-			type: Number,
-			default: 0,
-			required: false
-		},
-		upvotesList: {
 			type: [mongoose.Schema.Types.ObjectId],
 			ref: 'NewUser',
 		},
-
 		hashtag: {
 			type: String,
 			required: false,
 		},
-
+		link: {
+			type: String,
+			required: false,
+		},
 		comments: [ CommentSchema ]
 	},{ timestamps: true }
 );

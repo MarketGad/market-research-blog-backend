@@ -10,29 +10,33 @@ const PostsRouter = express.Router();
 
 PostsRouter.route('/')
 .get((req, res, next) => {
-    ClubPosts.aggregate()
+    ClubPosts.find({})
     .populate('user')
-    .exec((err, posts) => {
-        if(posts){
+    .then((posts) => {
+        // console.log(posts);
+        if(posts.length > 0){
             res.statusCode = 200
             res.setHeader('Content-Type', 'application/json');
             res.json({
                 status: "success",
-                posts: posts
+                posts
             });
         }
     }, (err) => next(err))
     .catch((err) => next(err));
 })
 .post(authenticate.verifyUser, (req, res, next) => {
+    req.body.user = req.user._id;
     ClubPosts.create(req.body)
-    .then((err, post) => {
+    .then((post) => {
         res.statusCode = 200
-            res.setHeader('Content-Type', 'application/json');
-            res.json({
-                status: "success",
-                post: post
-            });
+        res.setHeader('Content-Type', 'application/json');
+        res.json({
+            status: "success",
+            post: post
+        });
+        post.upvotes.push(post._id);
+        post.save;
     }, (err) => next(err))
     .catch((err) => next(err))
 })
