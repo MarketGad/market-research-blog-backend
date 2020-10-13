@@ -69,7 +69,7 @@ PostsRouter.route('/:postId/comments')
         res.setHeader('Content-Type', 'application/json');
         res.json({
             status: "success",
-            post
+            comments: post.comments
         });
     }, (err) => next(err))
     .catch((err) => next(err));

@@ -41,4 +41,6 @@ api/payment/verification
 ## Disrupter's Club
 <pre>
 /api/disrupterclub/posts [GET ,POST]
+/api/disrupterclub/posts/:postId/comments [GET, POST]
+/api/disrupterclub/posts/:postId/upvote [POST ]
 </pre>
