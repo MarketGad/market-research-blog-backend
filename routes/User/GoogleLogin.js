@@ -11,16 +11,18 @@ const client = new OAuth2Client("798827553844-i0rjoguupm9jucbohldlp16kthi5boif.a
 
 GoogleRouter.post('/googlelogin', async (req, res, next) => {
     const { tokenId } = req.body;
-    console.log(req.body)
+    // console.log(req.body)
     client.verifyIdToken({ idToken: tokenId, audience: "798827553844-i0rjoguupm9jucbohldlp16kthi5boif.apps.googleusercontent.com" })
         .then((response) => {
             const { email_verified, name, email, picture } = response.payload;
-            console.log(response.payload);
+            // console.log(response.payload);
             if (email_verified) {
                 User.findOne({ email: email })
                 .then(async (user) => {
                     if (user) {
                         console.log(user)
+                        user.profilePic = picture;
+                        user.save();
                         var token = authenticate.getToken({_id: user._id});
                         res.statusCode = 200;
                         res.setHeader('Content-Type', 'application/json');

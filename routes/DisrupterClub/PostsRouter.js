@@ -110,6 +110,7 @@ PostsRouter.route('/:postId/upvote')
 .post(authenticate.verifyUser, (req, res, next) => {
     ClubPosts.findById(req.params.postId)
     .then((post) => {
+        console.log(post)
         if(post != null){
 
             if(post.upvotes.indexOf(req.user._id) >= 0){
