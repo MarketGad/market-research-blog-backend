@@ -56,7 +56,6 @@ mongoose.connect(mongodburl, {
   useUnifiedTopology: true,
   useCreateIndex: true
 })
-
 .then(console.log(`Connected to MongoDB`))
 .catch(error => {
   console.log(error);
