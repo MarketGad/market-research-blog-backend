@@ -20,7 +20,8 @@ GoogleRouter.post('/googlelogin', async (req, res, next) => {
                 User.findOne({ email: email })
                 .then(async (user) => {
                     if (user) {
-                        console.log(user)
+                        // console.log(user)
+                        console.log(user.firstname + " " + user.lastname + " Logged In");
                         user.profilePic = picture;
                         user.save();
                         var token = authenticate.getToken({_id: user._id});
@@ -38,11 +39,12 @@ GoogleRouter.post('/googlelogin', async (req, res, next) => {
                         email: payload.email,
                         isEmailVerifies: true,
                     }
-                    console.log(UserData)
+                    
                     User.create(UserData)
                     .then((user) => {
-                        console.log("Profile Created")
-                        console.log(user)
+                        // console.log("Profile Created")
+                        console.log(UserData.firstname + " " + UserData.lastname + " Signed Up");
+                        // console.log(user)
                         const token = authenticate.getToken({_id: user._id});
                         res.statusCode = 200;
                         res.setHeader('Content-Type', 'application/json');

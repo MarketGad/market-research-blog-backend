@@ -34,8 +34,9 @@ jobProfileRouter.route('/')
     .catch((err) => next(err));
 })
 .post( authenticate.verifyUser, async (req, res, next) => {
-    User.findById({user: req.user._id})
+    User.findById(req.user._id)
     .then(async (user)=>{
+        console.log("user access")
         if(user.isJobProfileCreated == true){
             // console.log(user)
             res.statusCode = 410

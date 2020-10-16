@@ -55,6 +55,7 @@ JobsRouter.route('/:jobType')
 .get((req, res, next) => {
     Jobs.find({ type: req.params.jobType})
     .then((jobs) => {
+        // console.log(jobs)
         res.statusCode = 200;
         res.setHeader('Content-Type', 'application/json');
         res.json(jobs)
