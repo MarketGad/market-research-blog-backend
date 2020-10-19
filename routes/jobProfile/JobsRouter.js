@@ -23,7 +23,7 @@ JobsRouter.route('/')
         await cloudinary.uploader.upload(req.body.logo, 
             {   
                 folder: "Company/Logo/", 
-                public_id: req.user._id,
+                public_id: req.user._id+req.body.companyName,
                 quality: "auto:low"
             },
             (error, result) => {
