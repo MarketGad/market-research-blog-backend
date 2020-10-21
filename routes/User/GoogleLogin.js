@@ -38,6 +38,7 @@ GoogleRouter.post('/googlelogin', async (req, res, next) => {
                         profilePic: payload.picture,
                         email: payload.email,
                         isEmailVerifies: true,
+                        reputation: 10,
                     }
                     
                     User.create(UserData)
