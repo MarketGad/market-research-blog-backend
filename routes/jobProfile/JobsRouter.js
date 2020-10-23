@@ -27,19 +27,22 @@ JobsRouter.route('/')
                 quality: "auto:low"
             },
             (error, result) => {
-                console.log(result.secure_url, error)
-                req.body.logo = result.secure_url;
+                if(error){
+                    console.log(`Job Addition Failed :: Company : ${req.body.companyName} | Title : ${req.body.title}`);
+                } else {
+                    console.log(result.secure_url)
+                    req.body.logo = result.secure_url;
+                    Jobs.create(req.body)
+                    .then((job) => {
+                        console.log(`Job Added :: Company : ${job.companyName} | Title : ${job.title}`);
+                        res.statusCode = 200;
+                        res.json(job);
+                    }, (err) => next(err))
+                    .catch((err) => next(err));
+                }
         }, (err) => next(err))
         .catch((err) => next(err));
     }
-
-    Jobs.create(req.body)
-    .then((job) => {
-        console.log(`Job Added : company : ${job.companyName} Title : ${job.title}`);
-        res.statusCode = 200;
-        res.json(job);
-    }, (err) => next(err))
-    .catch((err) => next(err));
 })
 .put((req, res, next) => {
     res.statusCode = 403;
