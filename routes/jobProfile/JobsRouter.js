@@ -27,7 +27,7 @@ JobsRouter.route('/')
                 quality: "auto:low"
             },
             (error, result) => {
-                // console.log(result, error)
+                console.log(result.secure_url, error)
                 req.body.logo = result.secure_url;
         }, (err) => next(err))
         .catch((err) => next(err));
@@ -35,7 +35,7 @@ JobsRouter.route('/')
 
     Jobs.create(req.body)
     .then((job) => {
-        console.log('Job Added');
+        console.log(`Job Added : company : ${job.companyName} Title : ${job.title}`);
         res.statusCode = 200;
         res.json(job);
     }, (err) => next(err))
