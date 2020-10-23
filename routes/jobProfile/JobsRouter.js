@@ -1,9 +1,10 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 
-var passport = require('passport');
-var authenticate = require('../../authenticate');
-var {cloudinary} = require('../../utils/cloudinary');
+const passport = require('passport');
+const authenticate = require('../../authenticate');
+const {cloudinary} = require('../../utils/cloudinary');
+const cleanText = require('../../utils/cleanText');
 
 // SCHEMA
 const JobProfile = require('../../Models/JobProfile');
@@ -18,12 +19,13 @@ JobsRouter.route('/')
     res.end('operation not supported yet');
 })
 .post(authenticate.verifyUser, async (req, res, next) => {
-
+    // console.log(req.body.companyName);
+    // console.log(cleanText(req.body.companyName));
     if(req.body.logo){
         await cloudinary.uploader.upload(req.body.logo, 
             {   
                 folder: "Company/Logo/", 
-                public_id: req.user._id+req.body.companyName,
+                public_id: req.user._id + cleanText(req.body.companyName),
                 quality: "auto:low"
             },
             (error, result) => {
