@@ -3,23 +3,27 @@ const mongoose = require('mongoose');
 const Jobs = new mongoose.Schema({
     companyName: {
         type: String,
-        required: false,
+        required: true,
     },
     title: {
         type: String,
-        required: false,
+        required: true,
     },
     logo: {
         type: String,
-        required: false,
+        required: true,
     },
     jobLink : {
         type: String,
-        required: false,
+        required: true,
     },
     type: {
         type: String,
-        required: false,
+        required: true,
+    },
+    industry :{ 
+        type: String,
+        required: true,
     }
 },{ timestamps: true }
 )

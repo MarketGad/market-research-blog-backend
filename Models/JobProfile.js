@@ -63,8 +63,16 @@ const JobProfile = new mongoose.Schema({
 			required: false,
 			default: 1000,
 		},
-		profilePic: {
+		offeringDetails:{
 			type: String,
+			required: false
+		},
+		deliverytime:{
+			type: String,
+			required: false
+		},
+		experienceyears:{
+			type: Number,
 			required: false
 		}
 	},
