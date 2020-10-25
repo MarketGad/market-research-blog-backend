@@ -100,6 +100,21 @@ router.post('/signupUser', async (req, res, next) => {
                 })
             }
         } else {
+            
+            if(req.body.profilePic){
+                await cloudinary.uploader.upload(req.body.profilePic, 
+                    {   
+                        folder: "Users/", 
+                        public_id: req.user._id,
+                        quality: "auto:low"
+                    },
+                    (error, result) => {
+                        // console.log(result, error)
+                        req.body.profilePic = result.secure_url;
+                }, (err) => next(err))
+                .catch((err) => next(err));
+            }
+
             User.register(new User(req.body), req.body.password,  (err, user)=>{
                 if(err) {
                     res.statusCode = 500;

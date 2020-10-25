@@ -74,7 +74,22 @@ UserRouter.route('/profile')
     res.statusCode = 403;
     res.end('operation not supported yet');
 })
-.put(authenticate.verifyUser, (req, res, next) => {
+.put(authenticate.verifyUser, async (req, res, next) => {
+
+    if(req.body.profilePic){
+        await cloudinary.uploader.upload(req.body.profilePic, 
+            {   
+                folder: "Users/", 
+                public_id: req.user._id,
+                quality: "auto:low"
+            },
+            (error, result) => {
+                // console.log(result, error)
+                req.body.profilePic = result.secure_url;
+        }, (err) => next(err))
+        .catch((err) => next(err));
+    }
+
     User.findByIdAndUpdate(req.user._id, {
         $set: req.body
     }, { new: true})
