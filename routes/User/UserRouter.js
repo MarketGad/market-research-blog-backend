@@ -4,6 +4,7 @@ var passport = require('passport');
 const User = require('../../Models/UserNewModel');
 var authenticate = require('../../authenticate');
 
+var {cloudinary} = require('../../utils/cloudinary');
 
 const UserRouter = express.Router();
 
@@ -70,11 +71,11 @@ UserRouter.route('/profile')
     // res.statusCode = 403;
     // res.end('operation not supported yet');
 })
-.put((req, res, next) => {
+.post((req, res, next) => {
     res.statusCode = 403;
     res.end('operation not supported yet');
 })
-.post(authenticate.verifyUser, async (req, res, next) => {
+.put(authenticate.verifyUser, async (req, res, next) => {
 
     if(req.body.profilePic){
         await cloudinary.uploader.upload(req.body.profilePic, 
