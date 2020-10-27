@@ -1,12 +1,12 @@
 const createError = require('http-errors');
 const express = require('express');
 const path = require('path');
+const morgan = require('morgan')
 const bodyParser = require('body-parser');
 const mongoose = require("mongoose");
 const cookieParser = require('cookie-parser');
 const cors = require('cors');
 const config = require('./config');
-const app = express();
 var JWT = require('jsonwebtoken'); // used to create, sign, and verify tokens
 
 var passport = require('passport');
@@ -34,6 +34,10 @@ const ClubPostsRouter = require('./routes/DisrupterClub/PostsRouter');
 const HotProductsRouter = require('./routes/productsDetails/hotProductsRouter');
 
 const { ETXTBSY } = require('constants');
+
+
+const app = express();
+app.use(morgan('combined'))
 
 
 const port = config.PORT;
@@ -90,12 +94,12 @@ app.use( (req, res, next) => {
 app.use("/api/user", signupRoute);
 app.use("/api/user", loginRoute);
 app.use("/api/user", logoutRoute);
+app.use("/api/user", GoogleLoginRoute);
 app.use("/api/user", UserRouter);
 
 app.use("/api/chat/messages", MessageRouter);
 
 app.use("/api/user", resetPasswordRoute);
-app.use("/api/user", GoogleLoginRoute);
 app.use("/api", subscribeRoute);
 
 app.use('/api/jobprofiles', JobProfilesRouter)

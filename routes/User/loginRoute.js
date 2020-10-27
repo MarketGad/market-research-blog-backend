@@ -7,7 +7,9 @@ var authenticate = require('../../authenticate');
 router.post('/loginUser', (req, res, next)=> {
     passport.authenticate('local', async (err, user, info) => {
         if(user){
+            // console.log("Logged In")
             if(user.isEmailVerified == true){
+                console.log(user.firstname + " " + user.lastname + " Logged In");
                 var token = authenticate.getToken({_id: user._id});
                 res.statusCode = 200;
                 res.setHeader('Content-Type', 'application/json');
