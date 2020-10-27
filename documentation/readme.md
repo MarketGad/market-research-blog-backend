@@ -8,6 +8,7 @@ api/user/loginuser
 api/user/resetpassword
 api/user/googlelogin [POST]
 api/user/ [ GET ]
+api/user/:userId [ GET ]
 api/user/profile [ GET, PUT ]
 </pre>
 

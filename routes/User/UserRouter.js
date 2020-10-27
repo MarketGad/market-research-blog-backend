@@ -70,11 +70,11 @@ UserRouter.route('/profile')
     // res.statusCode = 403;
     // res.end('operation not supported yet');
 })
-.post((req, res, next) => {
+.put((req, res, next) => {
     res.statusCode = 403;
     res.end('operation not supported yet');
 })
-.put(authenticate.verifyUser, async (req, res, next) => {
+.post(authenticate.verifyUser, async (req, res, next) => {
 
     if(req.body.profilePic){
         await cloudinary.uploader.upload(req.body.profilePic, 
