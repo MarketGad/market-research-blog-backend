@@ -20,10 +20,7 @@ GoogleRouter.post('/googlelogin', async (req, res, next) => {
                 User.findOne({ email: email })
                 .then(async (user) => {
                     if (user) {
-                        // console.log(user)
                         console.log(user.firstname + " " + user.lastname + " Logged In");
-                        user.profilePic = picture;
-                        user.save();
                         var token = authenticate.getToken({_id: user._id});
                         res.statusCode = 200;
                         res.setHeader('Content-Type', 'application/json');
