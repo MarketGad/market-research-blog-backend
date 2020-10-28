@@ -30,29 +30,30 @@ GoogleRouter.post('/googlelogin', async (req, res, next) => {
                         res.cookie('session-id', token, { httpOnly: false });
                         res.json({success: true, token: token, user: user , status: 'You are successfully logged in!'});
                         return;
+                    } else {
+                        const payload = response.payload;
+                        const UserData = {
+                            firstname: payload.given_name,
+                            lastname: payload.family_name,
+                            profilePic: payload.picture,
+                            email: payload.email,
+                            isEmailVerifies: true,
+                            reputation: 10,
+                        }
+                        
+                        User.create(UserData)
+                        .then((user) => {
+                            // console.log("Profile Created")
+                            console.log(UserData.firstname + " " + UserData.lastname + " Signed Up");
+                            // console.log(user)
+                            const token = authenticate.getToken({_id: user._id});
+                            res.statusCode = 200;
+                            res.setHeader('Content-Type', 'application/json');
+                            res.cookie('session-id', token, { httpOnly: false });
+                            res.json({success: true, token: token, user: user , status: 'You are successfully logged in!'});
+                        }, (err) => next(err))
+                        .catch((err) => next(err));
                     }
-                    const payload = response.payload;
-                    const UserData = {
-                        firstname: payload.given_name,
-                        lastname: payload.family_name,
-                        profilePic: payload.picture,
-                        email: payload.email,
-                        isEmailVerifies: true,
-                        reputation: 10,
-                    }
-                    
-                    User.create(UserData)
-                    .then((user) => {
-                        // console.log("Profile Created")
-                        console.log(UserData.firstname + " " + UserData.lastname + " Signed Up");
-                        // console.log(user)
-                        const token = authenticate.getToken({_id: user._id});
-                        res.statusCode = 200;
-                        res.setHeader('Content-Type', 'application/json');
-                        res.cookie('session-id', token, { httpOnly: false });
-                        res.json({success: true, token: token, user: user , status: 'You are successfully logged in!'});
-                    }, (err) => next(err))
-                    .catch((err) => next(err));
                     
                 }, (err) => next(err))
                 .catch((err) => next(err));
