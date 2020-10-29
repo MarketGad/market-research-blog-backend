@@ -75,6 +75,7 @@ PostsRouter.route('/:postId/comments')
     .catch((err) => next(err));
 })
 .post(authenticate.verifyUser, (req, res, next) => {
+    req.body.author = req.user._id;
     ClubPosts.findById(req.params.postId)
     .then((post) => {
         if(post != null){
