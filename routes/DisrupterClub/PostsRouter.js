@@ -59,6 +59,34 @@ PostsRouter.route('/')
 })
 
 
+PostsRouter.route('/:postId')
+.get((req, res, next) => {
+    ClubPosts.findById(req.params.postId)
+    .populate('comments.author')
+    .populate('user') 
+    .then((post) => {
+        res.statusCode = 200
+        res.setHeader('Content-Type', 'application/json');
+        res.json({
+            status: "success",
+            post: post
+        });
+    }, (err) => next(err))
+    .catch((err) => next(err));
+})
+.post(authenticate.verifyUser, (req, res, next) => {
+    res.statusCode = 403;
+    res.end('operation not supported yet');
+})
+.put((req, res, next) => {
+    res.statusCode = 403;
+    res.end('operation not supported yet');
+})
+.delete((req, res, next) => {
+    res.statusCode = 403;
+    res.end('operation not supported yet');
+})
+
 PostsRouter.route('/:postId/comments')
 .get((req, res, next) => {
     ClubPosts.findById(req.params.postId)
