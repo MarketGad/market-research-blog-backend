@@ -67,6 +67,20 @@ productDetailsRouter.route('/')
         }, (err) => next(err))
         .catch((err) => next(err));
     }
+
+    if(req.body.theme){
+        await cloudinary.uploader.upload(req.body.theme, 
+            {   
+                folder: "Product_Profiles/theme/", 
+                public_id: req.body.name+" "+req.user._id,
+                quality: "auto:low"
+            },
+            (error, result) => {
+                // console.log(result, error)
+                req.body.theme = result.secure_url;
+        }, (err) => next(err))
+        .catch((err) => next(err));
+    }
     console.log("creating")
     ProductDetails.create(req.body)
     .then((profile) => {
