@@ -120,7 +120,7 @@ productDetailsRouter.route('/:productID')
     res.statusCode = 403;
     res.end('POST operation not supported on /products/' + req.params.productID);
 })
-.put( authenticate.verifyUser,  (req, res, next) => {
+.put( authenticate.verifyUser, async (req, res, next) => {
 
     if(req.body.logo){
         await cloudinary.uploader.upload(req.body.logo, 
