@@ -121,12 +121,41 @@ productDetailsRouter.route('/:productID')
     res.end('POST operation not supported on /products/' + req.params.productID);
 })
 .put( authenticate.verifyUser,  (req, res, next) => {
+
+    if(req.body.logo){
+        await cloudinary.uploader.upload(req.body.logo, 
+            {   
+                folder: "Product_Profiles/logo/", 
+                public_id: req.body.name+" "+req.user._id,
+                quality: "auto:low"
+            },
+            (error, result) => {
+                // console.log(result, error)
+                req.body.logo = result.secure_url;
+        }, (err) => next(err))
+        .catch((err) => next(err));
+    }
+
+    if(req.body.theme){
+        await cloudinary.uploader.upload(req.body.theme, 
+            {   
+                folder: "Product_Profiles/theme/", 
+                public_id: req.body.name+" "+req.user._id,
+                quality: "auto:low"
+            },
+            (error, result) => {
+                // console.log(result, error)
+                req.body.theme = result.secure_url;
+        }, (err) => next(err))
+        .catch((err) => next(err));
+    }
+
     ProductDetails.findByIdAndUpdate(req.params.productID, {
         $set: req.body
     }, { new: true})
     .then(async (product) => {
         product.reputationPoint = 4 * product.comments.length + product.upvotes
-        await product.save()
+        product.save()
         res.statusCode = 200;
         res.setHeader('Content-Type', 'application/json');
         res.json(product)
