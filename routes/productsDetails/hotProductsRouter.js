@@ -36,7 +36,7 @@ HotProductsRouter.route('/recent')
     // console.log("requested at hot")
     ProductDetails.find({})
     .sort({createdAt: -1})
-    .limit(3)
+    .limit(7)
     .populate('comments.author')
     .populate('user')
     .then((profiles) => {
