@@ -22,28 +22,34 @@ JobsRouter.route('/')
     // console.log(req.body.companyName);
     // console.log(cleanText(req.body.companyName));
     if(req.body.logo){
-        await cloudinary.uploader.upload(req.body.logo, 
-            {   
-                folder: "Company/Logo/", 
-                public_id: req.user._id + cleanText(req.body.companyName),
-                quality: "auto:low"
-            },
-            (error, result) => {
-                if(error){
-                    console.log(`Job Addition Failed :: Company : ${req.body.companyName} | Title : ${req.body.title}`);
-                } else {
-                    console.log(result.secure_url)
-                    req.body.logo = result.secure_url;
-                    Jobs.create(req.body)
-                    .then((job) => {
-                        console.log(`Job Added :: Company : ${job.companyName} | Title : ${job.title}`);
-                        res.statusCode = 200;
-                        res.json(job);
-                    }, (err) => next(err))
-                    .catch((err) => next(err));
-                }
-        }, (err) => next(err))
-        .catch((err) => next(err));
+        var flag = 0, count = 0;
+        while(count < 3){
+            await cloudinary.uploader.upload(req.body.logo, 
+                {   
+                    folder: "Company/Logo/", 
+                    public_id: req.user._id + cleanText(req.body.companyName),
+                    quality: "auto:low"
+                },
+                (error, result) => {
+                    if(error){
+                        console.log(`Iter: ${count+1} :: Job Addition Failed :: Company : ${req.body.companyName} | Title : ${req.body.title}`);
+                    } else {
+                        flag = 1;
+                        console.log(result.secure_url)
+                        req.body.logo = result.secure_url;
+                        Jobs.create(req.body)
+                        .then((job) => {
+                            console.log(`Job Added :: Company : ${job.companyName} | Title : ${job.title}`);
+                            res.statusCode = 200;
+                            res.json(job);
+                        }, (err) => next(err))
+                        .catch((err) => next(err));
+                    }
+            }, (err) => next(err))
+            .catch((err) => next(err));
+
+            if(flag == 1) break;
+        }
     }
 })
 .put((req, res, next) => {
