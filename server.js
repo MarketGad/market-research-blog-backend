@@ -100,7 +100,7 @@ app.use("/api/user", UserRouter);
 app.use("/api/chat/messages", MessageRouter);
 
 app.use("/api/user", resetPasswordRoute);
-app.use("/api", subscribeRoute);
+app.use("/api/subscribe", subscribeRoute);
 
 app.use('/api/jobprofiles', JobProfilesRouter)
 app.use('/api/jobprofiles/hire/', HireRouter)
