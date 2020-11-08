@@ -86,7 +86,13 @@ productDetailsRouter.route('/')
     .then((profile) => {
         console.log('Profile Created ');
         res.json(profile);
-    }, (err) => next(err))
+    }, (err) => {
+        res.statusCode = 404;
+        res.json({
+            message: `Product Already Exists`,
+        })
+        next(err);
+    })
     .catch((err) => next(err));
 })
 .put((req, res, next) => {
@@ -132,6 +138,20 @@ productDetailsRouter.route('/:productID')
             (error, result) => {
                 // console.log(result, error)
                 req.body.logo = result.secure_url;
+        }, (err) => next(err))
+        .catch((err) => next(err));
+    }
+
+    if(req.body.theme){
+        await cloudinary.uploader.upload(req.body.theme, 
+            {   
+                folder: "Product_Profiles/theme/", 
+                public_id: req.body.name+" "+req.user._id,
+                quality: "auto:low"
+            },
+            (error, result) => {
+                // console.log(result, error)
+                req.body.theme = result.secure_url;
         }, (err) => next(err))
         .catch((err) => next(err));
     }
