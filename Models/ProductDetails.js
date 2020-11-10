@@ -80,7 +80,6 @@ const ProductDetails = new mongoose.Schema(
 			type: String,
 			trim: true,
 			required: false,
-			unique: true
 		},
 		tags: {
 			type: [String],
