@@ -67,7 +67,6 @@ productDetailsRouter.route('/')
                 await cloudinary.uploader.upload(req.body.logo, 
                     {   
                         folder: "Product_Profiles/logo/", 
-                        public_id: req.body.name+" "+req.user._id,
                         quality: "auto:low"
                     },
                     (error, result) => {
